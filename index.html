@@ -1,0 +1,2551 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101829">
+  <title> اكاديمية معيار| تدريبات القدرات</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101829;
+      --panel: #182338;
+      --line: #2b3a52;
+      --text: #f3f5fa;
+      --muted: #9eabc0;
+      --mint: #78e0c0;
+      --gold: #f1c879;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background: radial-gradient(ellipse at 86% 0%, rgba(52, 94, 114, .22), transparent 35rem), var(--bg);
+    }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    .shell { max-width: 1240px; margin: auto; padding: 26px 30px 56px; animation: page-enter .65s cubic-bezier(.2,.75,.25,1) both; }
+    .topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 30px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark { width: 43px; height: 43px; display: grid; place-items: center; border-radius: 14px; color: #102324; background: var(--mint); font-weight: 900; font-size: 23px; }
+    .brand-name { font-size: 20px; font-weight: 800; }
+    .brand-sub { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; font-weight: 400; }
+    .top-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px; }
+    .today-label { color: var(--muted); font-size: 13px; }
+    .sync-status { max-width: 250px; color: var(--mint); font-size: 11px; line-height: 1.6; }
+    .sync-status[data-state="warning"] { color: var(--gold); }
+    .sync-status[data-state="error"] { color: #ff9a8b; }
+    body.cloud-sync-loading .shell { opacity: .7; pointer-events: none; }
+    .btn, .icon-btn { border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: 10px 15px; cursor: pointer; transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease; }
+    .nav-btn { display: inline-block; text-decoration: none; }
+    .btn:hover, .icon-btn:hover { border-color: #62728d; transform: translateY(-1px); }
+    .btn:active, .icon-btn:active, .day-chip:active { transform: scale(.96); }
+    .btn:focus-visible, .icon-btn:focus-visible, .day-chip:focus-visible, .issue-check:focus-visible, .review-task input:focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
+    .btn:disabled, .icon-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+    .btn-primary { background: var(--mint); color: #102324; border-color: var(--mint); font-weight: 800; }
+    .btn-primary:hover { background: #91efd2; border-color: #91efd2; }
+    .btn-danger { border-color: #8c514b; background: #3a2429; color: #ff9a8b; font-weight: 800; }
+    .btn-danger:hover { border-color: #ff9a8b; }
+    .btn-small { padding: 8px 12px; font-size: 13px; }
+    .hero {
+      display: grid; grid-template-columns: 1.4fr .6fr; gap: 24px; align-items: center;
+      padding: 31px 34px; border: 1px solid #34435c; border-radius: 24px;
+      background: linear-gradient(112deg, #1d3043, #1b2940 55%, #202c41);
+      position: relative; overflow: hidden;
+      animation: hero-enter .75s cubic-bezier(.2,.75,.25,1) .08s both;
+    }
+    .hero:after { content: ""; position: absolute; width: 270px; height: 270px; border: 1px solid #78e0c014; border-radius: 50%; left: 18%; top: -190px; box-shadow: 0 0 0 36px #78e0c009, 0 0 0 72px #78e0c007; }
+    .eyebrow { color: var(--mint); letter-spacing: 1px; font-size: 11px; font-weight: 800; }
+    h1 { font-size: clamp(27px, 3.4vw, 42px); line-height: 1.3; margin: 9px 0 10px; letter-spacing: -.8px; }
+    .hero-copy { max-width: 610px; margin: 0; color: #b6c1d1; line-height: 1.9; font-size: 15px; }
+    .hero-side { justify-self: center; position: relative; z-index: 1; text-align: center; }
+    .progress-ring { width: 142px; height: 142px; display: grid; place-items: center; border-radius: 50%; background: conic-gradient(var(--mint) var(--progress, 0%), #344258 0); position: relative; transition: background .7s cubic-bezier(.2,.75,.25,1); }
+    .progress-ring:before { content: ""; position: absolute; inset: 9px; border-radius: 50%; background: #1d2d42; }
+    .ring-content { position: relative; }
+    .ring-number { font-size: 34px; font-weight: 800; display: block; }
+    .ring-caption { display: block; font-size: 12px; color: var(--muted); }
+    .hero-status { margin-top: 11px; color: #bdc9d9; font-size: 12px; }
+    .finish-card { margin: 20px 0; padding: 27px; border: 1px solid #8e7443; border-radius: 20px; background: radial-gradient(ellipse at 85% 0%, #f1c87920, transparent 55%), linear-gradient(120deg, #302a27, #202b3d); }
+    .finish-heading { display: flex; align-items: center; gap: 14px; }
+    .finish-trophy { display: grid; place-items: center; flex: 0 0 54px; width: 54px; height: 54px; border-radius: 17px; background: #f1c87920; font-size: 30px; }
+    .finish-card h2 { margin: 0; color: var(--gold); font-size: 23px; }
+    .finish-card p { color: #d3dae5; line-height: 1.9; margin: 12px 0 0; }
+    .finish-prize { margin-top: 17px; padding: 13px 15px; border: 1px solid #f1c87955; border-radius: 12px; color: var(--gold); font-weight: 800; line-height: 1.8; }
+    .finish-duas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 17px; }
+    .finish-dua { padding: 12px; border-radius: 12px; background: #111b2b99; color: #f3f5fa; line-height: 1.9; }
+    .finish-dua small { display: block; color: var(--muted); font-size: 10px; }
+    .attendance-panel { margin: 20px 0; }
+    body:not(.attendance-page) .attendance-panel { display: none; }
+    body:not(.completion-page) .table-panel { display: none; }
+    body.attendance-page .shell { max-width: 880px; padding-top: 20px; }
+    body.attendance-page .topbar { margin-bottom: 20px; }
+    body.attendance-page main > :not(.attendance-panel) { display: none !important; }
+    body.attendance-page #editPlanBtn, body.attendance-page #resetSiteBtn, body.attendance-page #backupSiteBtn, body.attendance-page #todayLabel { display: none; }
+    .attendance-home-link, .completion-home-link { display: none; }
+    body.attendance-page .attendance-nav-link, body.attendance-page .completion-nav-link { display: none; }
+    body.attendance-page .attendance-home-link { display: inline-block; }
+    body.attendance-page .attendance-panel { margin-top: 0; }
+    body.completion-page .topbar { margin-bottom: 20px; }
+    body.completion-page main > :not(.table-panel) { display: none !important; }
+    body.completion-page #editPlanBtn, body.completion-page #resetSiteBtn, body.completion-page #backupSiteBtn, body.completion-page #todayLabel { display: none; }
+    body.completion-page .attendance-nav-link, body.completion-page .completion-nav-link { display: none; }
+    body.completion-page .completion-home-link { display: inline-block; }
+    body.completion-page .table-panel { margin-top: 0; }
+    .attendance-content { padding: 0 22px 22px; }
+    .attendance-note { margin: 0 0 14px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .attendance-status { padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #111b2b; color: #d3dae5; font-size: 12px; line-height: 1.8; }
+    .attendance-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+    .attendance-action { display: grid; justify-items: center; gap: 10px; padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: #111b2b; text-align: center; }
+    .attendance-action h3 { margin: 0; font-size: 14px; }
+    .attendance-action-status { min-height: 24px; margin: 0; color: #d3dae5; font-size: 12px; line-height: 1.8; }
+    .attendance-action .btn { width: 100%; }
+    .attendance-schedule { margin-top: 20px; }
+    .attendance-schedule-title { margin: 0 0 5px; font-size: 15px; }
+    .attendance-schedule-copy { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.8; }
+    .attendance-table tbody tr { cursor: default; }
+    .attendance-absence-select { min-width: 145px; padding: 8px; direction: rtl; }
+    .attendance-result { text-align: center; }
+    .attendance-result-icon { display: grid; place-items: center; width: 72px; height: 72px; margin: 0 auto 15px; border: 2px solid #438c7a; border-radius: 50%; background: #16352f; color: var(--mint); font-size: 42px; font-weight: 900; }
+    .attendance-result-icon.error { border-color: #8c514b; background: #3a2429; color: #ff9a8b; }
+    .attendance-result .btn { width: 100%; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 20px 0 27px; }
+    .stat { border: 1px solid var(--line); background: #172236cc; border-radius: 16px; padding: 16px 18px; min-height: 90px; transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; animation: card-enter .55s cubic-bezier(.2,.75,.25,1) both; }
+    .stat:nth-child(1) { animation-delay: .12s; }
+    .stat:nth-child(2) { animation-delay: .18s; }
+    .stat:nth-child(3) { animation-delay: .24s; }
+    .stat:nth-child(4) { animation-delay: .30s; }
+    .stat:hover { transform: translateY(-4px); border-color: #55708e; box-shadow: 0 14px 34px #070d1933; }
+    .stat-top { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 12px; }
+    .stat-icon { font-size: 16px; }
+    .stat-value { display: block; font-size: 22px; font-weight: 800; margin-top: 8px; }
+    .stat-value small { font-size: 12px; font-weight: 500; color: var(--muted); }
+    .stat-progress { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 8px; margin-top: 9px; color: var(--mint); font-size: 11px; }
+    .bar { height: 6px; overflow: hidden; border-radius: 99px; background: #344258; }
+    .bar-fill { height: 100%; width: 0; border-radius: inherit; background: var(--mint); transition: width .85s cubic-bezier(.2,.75,.25,1); }
+    .bar-fill.verbal { background: #a8a9ff; }
+    .stat-progress .bar { width: 100%; }
+    .stat-hint { display: block; color: var(--muted); font-size: 11px; margin-top: 7px; }
+    .content-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(300px, .75fr); gap: 20px; align-items: start; }
+    .panel { border: 1px solid var(--line); border-radius: 18px; background: #172236d9; overflow: hidden; animation: card-enter .6s cubic-bezier(.2,.75,.25,1) .18s both; transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
+    .panel:hover { border-color: #425672; box-shadow: 0 18px 42px #070d1928; }
+    .panel-head { padding: 20px 22px 15px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .panel-title { margin: 0; font-size: 17px; }
+    .panel-sub { color: var(--muted); margin: 6px 0 0; font-size: 12px; }
+    .day-controls { display: flex; align-items: center; gap: 8px; }
+    .icon-btn { width: 34px; height: 34px; padding: 0; font-size: 17px; }
+    .day-counter { color: var(--muted); font-size: 12px; min-width: 80px; text-align: center; }
+    .day-picker { display: flex; gap: 7px; overflow-x: auto; padding: 0 22px 15px; scrollbar-width: thin; scrollbar-color: #43536b transparent; }
+    .day-chip { min-width: 43px; height: 40px; border: 1px solid var(--line); border-radius: 12px; color: var(--muted); background: #111b2b; cursor: pointer; font-size: 12px; transition: transform .16s ease, border-color .16s ease, background .16s ease, color .16s ease, box-shadow .16s ease; }
+    .day-chip:hover:not(:disabled) { transform: translateY(-2px); border-color: #627a99; box-shadow: 0 7px 18px #070d1933; }
+    .day-chip:hover { border-color: #6b7c98; }
+    .day-chip.active { color: #102324; background: var(--mint); border-color: var(--mint); font-weight: 800; }
+    .day-chip.complete:not(.active) { border-color: #438c7a; color: var(--mint); }
+    .day-chip.off { border-style: dashed; color: #f1c879; background: #30291f; }
+    .day-chip.locked { opacity: .48; cursor: not-allowed; }
+    .day-card { margin: 0 15px 15px; padding: 21px; border: 1px solid #32425a; border-radius: 16px; background: #1b2940; animation: day-enter .38s cubic-bezier(.2,.75,.25,1) both; }
+    .day-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .day-week { font-size: 11px; color: var(--mint); font-weight: 800; }
+    .day-title { margin: 6px 0 5px; font-size: 20px; }
+    .day-description { color: var(--muted); font-size: 13px; margin: 0; line-height: 1.7; }
+    .tag-row { display: flex; gap: 7px; margin: 15px 0 17px; flex-wrap: wrap; }
+    .tag { border-radius: 8px; padding: 6px 9px; background: #29364b; color: #c1ccdb; font-size: 11px; }
+    .issue-list { display: grid; gap: 9px; list-style: none; margin: 0; padding: 0; }
+    .issue-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; border: 1px solid #2e3b50; border-radius: 12px; background: #172338; transition: transform .18s ease, border-color .18s ease, background .18s ease; animation: issue-enter .42s cubic-bezier(.2,.75,.25,1) both; }
+    .issue-row:nth-child(2) { animation-delay: .04s; }
+    .issue-row:nth-child(3) { animation-delay: .08s; }
+    .issue-row:nth-child(4) { animation-delay: .12s; }
+    .issue-row:hover { transform: translateX(-3px); border-color: #4d6582; background: #1b2a42; }
+    .issue-main { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .issue-check { appearance: none; flex: 0 0 19px; width: 19px; height: 19px; border: 1.5px solid #66758d; border-radius: 6px; cursor: pointer; }
+    .issue-check:checked { background: var(--mint); border-color: var(--mint); }
+    .issue-check:checked:after { content: "✓"; display: block; color: #122526; text-align: center; line-height: 17px; font-size: 13px; font-weight: 900; }
+    .issue-title { font-size: 13px; font-weight: 700; }
+    .issue-meta { display: block; color: var(--muted); font-size: 10px; margin-top: 3px; }
+    .issue-done .issue-title { color: #8998ad; text-decoration: line-through; }
+    .pdf-link { border: 1px solid var(--line); border-radius: 9px; padding: 7px 9px; font-size: 11px; text-decoration: none; white-space: nowrap; color: #c7d7f0; background: #202e44; }
+    .pdf-link.disabled { color: #8491a3; opacity: .7; cursor: not-allowed; }
+    .day-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid #2e3b50; padding-top: 15px; margin-top: 15px; }
+    .completion-copy { color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .side-stack { display: grid; gap: 18px; }
+    .simulation-panel { padding: 0 22px 21px; }
+    .simulation-note { color: var(--muted); font-size: 12px; line-height: 1.8; margin: 0 0 15px; }
+    .simulation-link { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+    .simulation-link[aria-disabled="true"] { opacity: .48; pointer-events: none; }
+    .simulation-panel label { display: block; color: #d7dce5; font-size: 12px; margin: 0 0 8px; }
+    .test-entry { display: flex; gap: 8px; }
+    .test-entry .date-input { min-width: 0; }
+    .test-comparison { padding: 10px 12px; margin: 12px 0 0; border-radius: 10px; background: #111b2b; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .test-comparison.positive { color: var(--mint); }
+    .test-comparison.negative { color: var(--gold); }
+    .test-history { display: grid; gap: 7px; margin: 11px 0 0; padding: 0 18px 0 0; color: var(--muted); font-size: 11px; }
+    .test-history li { padding: 4px 0; }
+    .trainee-level { display: grid; gap: 6px; margin-top: 12px; padding: 12px; border: 1px solid #438c7a; border-radius: 12px; background: #16352f; }
+    .trainee-level-label { color: #c9f3df; font-size: 11px; }
+    .trainee-level-name { color: var(--mint); font-size: 19px; }
+    .trainee-level-copy, .trainee-level-scale { margin: 0; color: #d3dae5; font-size: 11px; line-height: 1.8; }
+    .trainee-level-scale { margin-top: 10px; color: var(--muted); }
+    .star-summary { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 0 22px 12px; color: var(--muted); font-size: 12px; }
+    .star-summary strong { color: var(--gold); font-size: 18px; }
+    .week-list { display: grid; gap: 9px; padding: 0 16px 18px; }
+    .week-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #111b2b; }
+    .week-name { font-size: 12px; font-weight: 700; }
+    .week-progress { display: block; color: var(--muted); font-size: 10px; margin-top: 4px; }
+    .week-stars { display: flex; gap: 2px; white-space: nowrap; }
+    .week-star { color: #66748a; font-size: 19px; filter: grayscale(1); }
+    .week-star.earned { color: var(--gold); filter: none; text-shadow: 0 0 14px #f1c87966; }
+    .week-complete-message { color: var(--gold); font-size: 11px; margin: 0 16px 15px; line-height: 1.7; }
+    .section-breakdown { padding: 0 18px 18px; display: grid; gap: 11px; }
+    .section-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: #d3dae5; font-size: 12px; }
+    .section-row span:last-child { color: var(--muted); }
+    .section-label { display: grid; gap: 7px; }
+    .section-label .bar { width: 100%; }
+    .category-badge { border: 1px solid var(--line); border-radius: 7px; padding: 4px 7px; background: #202e44; color: #c7d7f0; font-size: 10px; white-space: nowrap; }
+    .review-panel { margin-top: 15px; padding-top: 15px; border-top: 1px solid #2e3b50; }
+    .review-title { margin: 0 0 6px; font-size: 14px; }
+    .review-description { color: var(--muted); font-size: 11px; line-height: 1.7; margin: 0 0 8px; }
+    .review-task { display: flex; align-items: flex-start; gap: 9px; padding: 9px 0; border-top: 1px solid #2e3b50; cursor: pointer; font-size: 12px; line-height: 1.6; }
+    .review-task input { accent-color: var(--mint); margin: 3px 0 0; }
+    .review-task.done { color: #8998ad; text-decoration: line-through; }
+    .challenge-review-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; padding: 12px; border: 1px solid #665438; border-radius: 12px; background: #352f24; color: #f3dfb2; font-size: 12px; }
+    .challenge-review-row .issue-meta { color: #c4b998; }
+    .select-all-row { display: flex; align-items: center; gap: 10px; padding: 12px; margin-top: 14px; border: 1px solid #438c7a; border-radius: 11px; background: #16352f; color: #c9f3df; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .select-all-row input { width: 18px; height: 18px; accent-color: var(--mint); }
+    .table-panel { margin-top: 20px; }
+    .table-wrap { overflow-x: auto; padding: 0 18px 18px; }
+    .completion-table { width: 100%; border-collapse: collapse; min-width: 590px; text-align: right; }
+    .completion-table th, .completion-table td { border-bottom: 1px solid #2e3b50; padding: 11px 12px; font-size: 12px; }
+    .completion-table th { color: var(--muted); font-weight: 600; }
+    .completion-table tbody tr { cursor: pointer; }
+    .completion-table tbody tr:hover { background: #1d2b41; }
+    .completion-table tr.current-row { background: #183036; }
+    .status-pill { display: inline-block; padding: 5px 8px; border-radius: 8px; background: #29364b; color: #c2ccda; font-size: 10px; }
+    .status-pill.complete { color: var(--mint); background: #16352f; }
+    .status-pill.pending { color: var(--gold); background: #393124; }
+    .status-pill.future { color: var(--muted); }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 5; display: flex; align-items: center; justify-content: center; overflow-y: auto; padding: 12px; background: #090f1dcc; backdrop-filter: blur(5px); }
+    .modal { width: min(560px, 100%); max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); overflow-y: auto; overscroll-behavior: contain; background: #1b2940; border: 1px solid #40516a; border-radius: 22px; padding: 22px; box-shadow: 0 24px 80px #0007; animation: modal-enter .32s cubic-bezier(.2,.75,.25,1) both; }
+    .modal h2 { font-size: 22px; margin: 0 0 9px; }
+    .modal p { color: var(--muted); font-size: 13px; line-height: 1.8; margin: 0 0 19px; }
+    .modal label { display: block; color: #d7dce5; font-size: 12px; margin: 15px 0 8px; }
+    .date-input { width: 100%; color: var(--text); background: #111b2b; border: 1px solid var(--line); border-radius: 11px; padding: 12px; direction: ltr; }
+    .holiday-week { margin-top: 10px; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: #111b2b; }
+    .holiday-week-title { margin: 0 0 8px; color: var(--mint); font-size: 12px; }
+    .holiday-days { display: flex; flex-wrap: wrap; gap: 7px; }
+    .holiday-option { display: flex; align-items: center; gap: 5px; padding: 7px 8px; border: 1px solid var(--line); border-radius: 8px; color: #d7dce5; font-size: 11px; cursor: pointer; }
+    .holiday-option input { accent-color: var(--mint); }
+    .modal-actions { position: sticky; bottom: 0; z-index: 1; display: flex; gap: 9px; margin-top: 15px; padding: 12px 0 0; background: #1b2940; }
+    .modal-actions .btn { flex: 1; }
+    .backup-import { margin-top: 18px; padding: 13px; border: 1px solid var(--line); border-radius: 12px; background: #111b2b; }
+    .backup-import p { margin: 0 0 10px; }
+    .backup-import input { width: 100%; color: var(--muted); font-size: 11px; }
+    .backup-import .btn { width: 100%; margin-top: 10px; }
+    .challenge-backdrop { position: fixed; inset: 0; z-index: 8; display: grid; place-items: center; overflow-y: auto; padding: 14px; background: #090f1deF; backdrop-filter: blur(7px); }
+    .challenge-dialog { width: min(570px, 100%); max-height: calc(100vh - 28px); max-height: calc(100dvh - 28px); overflow-y: auto; padding: 22px; border: 1px solid #53627a; border-radius: 22px; background: linear-gradient(150deg, #1d3043, #172236 72%); box-shadow: 0 24px 90px #000b; animation: modal-enter .32s cubic-bezier(.2,.75,.25,1) both; }
+    .challenge-topline, .challenge-stats { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .challenge-kicker { color: var(--mint); font-size: 12px; font-weight: 800; }
+    .challenge-close { padding: 7px 10px; font-size: 11px; }
+    .challenge-dialog h2 { margin: 10px 0; font-size: 25px; }
+    .challenge-copy, .challenge-result-copy { color: #b6c1d1; font-size: 13px; line-height: 1.9; }
+    .challenge-start { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; animation: challenge-pulse 1.8s ease-in-out infinite; }
+    .challenge-stats { margin: 12px 0 9px; font-size: 12px; }
+    .challenge-clock { color: var(--mint); font-size: 22px; font-weight: 900; }
+    .challenge-clock.urgent { color: #ff8e7c; animation: challenge-pulse .7s ease-in-out infinite; }
+    .challenge-progress { height: 8px; overflow: hidden; border-radius: 99px; background: #344258; }
+    .challenge-progress-bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #78e0c0, #f1c879); transition: width .25s ease; }
+    .challenge-category { margin: 20px 0 7px; color: var(--gold); font-size: 11px; font-weight: 800; }
+    .challenge-question { margin: 0 0 16px; font-size: 19px; line-height: 1.8; }
+    .challenge-choices { display: grid; gap: 9px; }
+    .challenge-choice { width: 100%; padding: 12px 14px; border: 1px solid #40516a; border-radius: 12px; background: #111b2b; text-align: right; cursor: pointer; transition: .15s ease; }
+    .challenge-choice:hover:not(:disabled) { border-color: var(--mint); transform: translateY(-1px); }
+    .challenge-choice:disabled { cursor: default; opacity: .9; }
+    .challenge-choice.correct { border-color: var(--mint); background: #16352f; }
+    .challenge-choice.wrong { border-color: #ff8e7c; background: #3a2429; }
+    .challenge-feedback { min-height: 25px; margin: 13px 0 0; color: var(--mint); font-size: 13px; line-height: 1.7; }
+    .challenge-result { padding: 18px 4px 4px; text-align: center; }
+    .challenge-score { display: block; margin: 12px 0; color: var(--gold); font-size: 48px; font-weight: 900; }
+    .challenge-result-stars { display: flex; justify-content: center; gap: 8px; margin: 0 0 12px; }
+    .challenge-result-star { color: #66748a; font-size: 34px; filter: grayscale(1); }
+    .challenge-result-star.earned { color: var(--gold); filter: none; text-shadow: 0 0 18px #f1c87988; animation: challenge-pulse 1.2s ease-in-out infinite; }
+    .challenge-answer-review { display: grid; gap: 8px; margin-top: 18px; text-align: right; }
+    .challenge-answer-item { padding: 10px 12px; border: 1px solid #40516a; border-radius: 10px; background: #111b2b; font-size: 11px; line-height: 1.7; }
+    .challenge-answer-item.correct { border-color: #438c7a; }
+    .challenge-answer-item.incorrect { border-color: #8c514b; }
+    .challenge-answer-question { margin-bottom: 5px; color: #e4e9f1; font-weight: 700; }
+    .challenge-answer-value { color: var(--muted); }
+    .challenge-result .btn { width: 100%; margin-top: 12px; }
+    @keyframes page-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes hero-enter { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes card-enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes day-enter { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes issue-enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes modal-enter { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes challenge-pulse { 50% { box-shadow: 0 0 24px #78e0c055; transform: scale(1.015); } }
+    @media (max-width: 600px) {
+      .challenge-dialog { padding: 18px; }
+      .challenge-dialog h2 { font-size: 21px; }
+      .challenge-question { font-size: 17px; }
+    }
+    .toast { position: fixed; z-index: 10; bottom: 25px; left: 50%; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; padding: 11px 16px; border: 1px solid #496052; border-radius: 12px; background: #20352f; color: #c9f3df; font-size: 13px; transition: .2s ease; }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    .footer-note { color: #78869c; text-align: center; font-size: 11px; line-height: 1.8; margin: 25px 0 0; }
+    .hidden { display: none !important; }
+    @media (max-width: 850px) {
+      .hero { grid-template-columns: 1fr auto; padding: 26px; }
+      .content-grid { grid-template-columns: 1fr; }
+      .side-stack { grid-template-columns: 1fr 1fr; align-items: start; }
+      .side-stack > :last-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 600px) {
+      .shell { padding: 17px 14px 35px; }
+      .topbar { margin-bottom: 18px; }
+      .top-actions { gap: 6px; }
+      .sync-status { flex-basis: 100%; max-width: none; }
+      .brand-name { font-size: 17px; }
+      .today-label { display: none; }
+      .top-actions .btn { padding: 9px 10px; font-size: 12px; }
+      .hero { grid-template-columns: 1fr; padding: 23px 20px; gap: 17px; }
+      .hero-side { display: flex; align-items: center; gap: 14px; justify-self: start; text-align: right; }
+      .finish-card { padding: 20px; }
+      .finish-card h2 { font-size: 19px; }
+      .finish-duas { grid-template-columns: 1fr; }
+      .attendance-content { padding: 0 16px 16px; }
+      .attendance-actions { grid-template-columns: 1fr; }
+      .progress-ring { width: 86px; height: 86px; }
+      .progress-ring:before { inset: 6px; }
+      .ring-number { font-size: 24px; }
+      .ring-caption { font-size: 10px; }
+      .hero-status { margin: 0; }
+      .stats { grid-template-columns: repeat(2, 1fr); gap: 9px; margin: 13px 0 19px; }
+      .stat { min-height: 79px; padding: 12px; }
+      .stat-value { font-size: 19px; margin-top: 6px; }
+      .panel-head { padding: 17px 16px 13px; }
+      .day-picker { padding-right: 16px; padding-left: 16px; }
+      .day-card { margin: 0 9px 9px; padding: 16px; }
+      .side-stack { grid-template-columns: 1fr; }
+      .side-stack > :last-child { grid-column: auto; }
+      .issue-row { padding: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">م</div>
+        <div class="brand-name">مِعيار<span class="brand-sub">تدرّب، تابع إنجازك، واستعد للاختبار</span></div>
+      </div>
+      <div class="top-actions">
+        <span class="sync-status" id="cloudSyncStatus" role="status" aria-live="polite">جارٍ تجهيز المزامنة...</span>
+        <span class="today-label" id="todayLabel"></span>
+        <button class="btn btn-small" id="googleAuthBtn" type="button">ربط حساب Google</button>
+        <a class="btn btn-small nav-btn attendance-nav-link" href="?view=attendance">جدول الحضور والغياب</a>
+        <a class="btn btn-small nav-btn completion-nav-link" href="?view=completion">جدول الإتمام</a>
+        <a class="btn btn-small nav-btn attendance-home-link" href="?">العودة للرئيسية</a>
+        <a class="btn btn-small nav-btn completion-home-link" href="?">العودة للرئيسية</a>
+        <button class="btn btn-small" id="backupSiteBtn" type="button">تنزيل نسخة</button>
+        <button class="btn btn-small" id="editPlanBtn" type="button">⚙️ تاريخ الخطة</button>
+        <button class="btn btn-small btn-danger" id="resetSiteBtn" type="button">إعادة تعيين</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="eyebrow">٤٣١ إصدارًا تدريبيًا · ١٣٠ كميًا و٣٠١ لفظيًا</div>
+          <h1 id="heroTitle">تدرّب على الإصدارات، وتابع إنجازك.</h1>
+          <p class="hero-copy" id="heroCopy">اختر بداية الخطة ونهايتها، وسنوزع التدريبات اليومية حتى موعدك. سجّل نتائج الاختبارات لمتابعة التحسن.</p>
+        </div>
+        <div class="hero-side">
+          <div class="progress-ring" id="progressRing" style="--progress:0%">
+            <div class="ring-content"><span class="ring-number" id="overallProgress">0%</span><span class="ring-caption">إنجاز الإصدارات</span></div>
+          </div>
+          <div class="hero-status" id="heroStatus">كل إصدار تنهيه يقربك من هدفك</div>
+        </div>
+      </section>
+
+      <section class="finish-card hidden" id="trainingFinish" aria-live="polite">
+        <div class="finish-heading"><span class="finish-trophy" aria-hidden="true">🏆</span><h2>أتممت رحلتك التدريبية.. تستحق الاحتفال!</h2></div>
+        <p>أنهيت تدريباتك ومراجعاتك وتحدياتك بإصرار. ادخل الاختبار بهدوء، اقرأ كل سؤال بعناية، ونظّم وقتك. ثق بما تعلمته، واجعل جهدك يتحدث عنك.</p>
+        <div class="finish-prize">🎁 جائزتك الكبرى: وسام «بطل القدرات» ومكافأة تختارها لنفسك احتفالًا بهذا الإنجاز. لقد وصلت إلى خط النهاية!</div>
+        <p><strong>أدعية قبل الاختبار:</strong></p>
+        <div class="finish-duas">
+          <div class="finish-dua">﴿رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي﴾<small>سورة طه، الآيتان ٢٥–٢٦</small></div>
+          <div class="finish-dua">﴿رَبِّ زِدْنِي عِلْمًا﴾<small>سورة طه، الآية ١١٤</small></div>
+          <div class="finish-dua">﴿رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا﴾<small>سورة الكهف، الآية ١٠</small></div>
+        </div>
+      </section>
+
+      <section class="stats" aria-label="ملخص التقدم">
+        <div class="stat"><div class="stat-top"><span>إنجاز الكمي</span><span class="stat-icon">🔢</span></div><strong class="stat-value" id="quantCompletedStat">٠ <small>من ١٣٠</small></strong><div class="stat-progress"><span id="quantPercent">٠٪</span><div class="bar"><div class="bar-fill" id="quantProgressBar"></div></div></div></div>
+        <div class="stat"><div class="stat-top"><span>إنجاز اللفظي</span><span class="stat-icon">📖</span></div><strong class="stat-value" id="verbalCompletedStat">٠ <small>من ٣٠١</small></strong><div class="stat-progress"><span id="verbalPercent">٠٪</span><div class="bar"><div class="bar-fill verbal" id="verbalProgressBar"></div></div></div></div>
+        <div class="stat"><div class="stat-top"><span>موعد نهاية الخطة</span><span class="stat-icon">🏁</span></div><strong class="stat-value" id="finishDateStat">—</strong><span class="stat-hint" id="durationSummary">اختر تاريخ النهاية</span></div>
+        <div class="stat"><div class="stat-top"><span>نجوم التحديات</span><span class="stat-icon">⭐</span></div><strong class="stat-value" id="starStat">٠ <small>نجمة</small></strong></div>
+      </section>
+
+      <section class="panel attendance-panel" aria-labelledby="attendanceHeading">
+        <div class="panel-head">
+          <div><h2 class="panel-title" id="attendanceHeading">الحضور والغياب</h2><p class="panel-sub">سجّل الحضور والانصراف أو حدّد نوع الغياب</p></div><span>✅</span>
+        </div>
+        <div class="attendance-content">
+          <p class="attendance-note" id="attendanceHostNote"></p>
+          <div class="attendance-actions">
+            <div class="attendance-action">
+              <h3>تسجيل الحضور</h3>
+              <p class="attendance-action-status" id="attendanceCheckInStatus" aria-live="polite"></p>
+              <button class="btn btn-primary" id="recordCheckIn" type="button">تسجيل الحضور</button>
+            </div>
+            <div class="attendance-action">
+              <h3>تسجيل الانصراف</h3>
+              <p class="attendance-action-status" id="attendanceCheckOutStatus" aria-live="polite"></p>
+              <button class="btn btn-primary" id="recordCheckOut" type="button">تسجيل الانصراف</button>
+            </div>
+          </div>
+          <div class="attendance-status" id="attendanceRewardStatus" aria-live="polite"></div>
+          <section class="attendance-schedule" aria-labelledby="attendanceScheduleHeading">
+            <h3 class="attendance-schedule-title" id="attendanceScheduleHeading">جدول أيام الحضور فقط</h3>
+            <p class="attendance-schedule-copy">يعرض أيام العمل فقط دون الإجازات. حدّد نوع الغياب من القائمة عند الحاجة.</p>
+            <div class="table-wrap">
+              <table class="completion-table attendance-table">
+                <thead><tr><th>اليوم</th><th>التاريخ</th><th>الحضور</th><th>الانصراف</th><th>الغياب</th></tr></thead>
+                <tbody id="attendanceScheduleTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <div class="content-grid">
+        <section class="panel" aria-labelledby="planHeading">
+          <div class="panel-head">
+            <div><h2 class="panel-title" id="planHeading">إصدارات التدريب</h2><p class="panel-sub">اختر يومًا لعرض إصداراته وتتبع إتمامها</p></div>
+            <div class="day-controls">
+              <button class="icon-btn" id="nextDay" type="button" aria-label="اليوم التالي">‹</button>
+              <span class="day-counter" id="dayCounter"></span>
+              <button class="icon-btn" id="prevDay" type="button" aria-label="اليوم السابق">›</button>
+            </div>
+          </div>
+          <div class="day-picker" id="dayPicker" aria-label="أيام الخطة"></div>
+          <article class="day-card" id="dayCard"></article>
+        </section>
+
+        <aside class="side-stack">
+          <section class="panel">
+            <div class="panel-head"><div><h2 class="panel-title">تحدي الأسبوع</h2><p class="panel-sub">كل خميس الساعة ٨ مساءً · حتى ١٠ أسئلة</p></div><span>🔥</span></div>
+            <div class="simulation-panel">
+              <p class="simulation-note" id="weeklyChallengeStatus">ابدأ خطتك ثم انطلق في تحدي الأسبوع!</p>
+              <button class="btn btn-primary simulation-link" id="openWeeklyChallenge" type="button">ابدأ تحدي الأسبوع 🚀</button>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div><h2 class="panel-title">اختبار القدرات المحاكي</h2><p class="panel-sub">اختبار إلزامي في نهاية كل أسبوعين</p></div><span>📝</span></div>
+            <div class="simulation-panel">
+              <p class="simulation-note" id="mockExamSchedule">في نهاية كل أسبوعين، افتح الاختبار المحاكي وسجّل إتمامه في مراجعة ذلك اليوم.</p>
+              <a class="btn btn-primary btn-small simulation-link" href="https://qudurat.com/exam/instructions">اذهب إلى الاختبار المحاكي ↗</a>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><div><h2 class="panel-title">نجوم التحدي</h2><p class="panel-sub">١–٤ نقاط: نجمة · ٥–٨: نجمتان · ٩–١٠: ثلاث نجوم</p></div><span>🏆</span></div>
+            <div class="star-summary"><span>نجوم التحديات المكتسبة</span><strong id="starSummary">٠ / ١٥</strong></div>
+            <div class="week-list" id="weekList"></div>
+            <p class="week-complete-message" id="weeklyMessage">أكمل تحدي كل أسبوع لتحصل على نجوم بحسب نقاطك ⭐</p>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><div><h2 class="panel-title">نتائج الاختبارات</h2><p class="panel-sub">قارن نتائجك وتابع مستواك التقديري</p></div><span>📈</span></div>
+            <div class="simulation-panel">
+              <label for="testScore">نتيجتك من ١٠٠٪</label>
+              <div class="test-entry"><input class="date-input" id="testScore" type="number" min="0" max="100" step="0.1" placeholder="مثال: ٧٨"><button class="btn btn-primary btn-small" id="saveTestScore" type="button">حفظ النتيجة</button></div>
+              <p class="test-comparison" id="testComparison" aria-live="polite">سجّل نتيجة اختبارك لبدء المقارنة.</p>
+              <div class="trainee-level" aria-live="polite"><span class="trainee-level-label">مستوى المتدرب حسب آخر اختبار</span><strong class="trainee-level-name" id="traineeLevelName">لم يُقيّم بعد</strong><p class="trainee-level-copy" id="traineeLevelCopy">سجّل نتيجة اختبار لإظهار مستواك.</p></div>
+              <p class="trainee-level-scale">مقياس إرشادي: ٩٠–١٠٠ متميز · ٨٠–أقل من ٩٠ متقدم · ٧٠–أقل من ٨٠ جيد · ٦٠–أقل من ٧٠ متوسط · أقل من ٦٠ يحتاج تأسيس. ليس تقييمًا رسميًا.</p>
+              <ol class="test-history" id="testHistory"></ol>
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      <section class="panel table-panel" aria-labelledby="completionHeading">
+        <div class="panel-head">
+          <div><h2 class="panel-title" id="completionHeading">جدول الإتمام</h2><p class="panel-sub">ملخص يومي للإصدارات المنجزة والمتبقية</p></div>
+        </div>
+        <div class="table-wrap">
+          <table class="completion-table">
+            <thead><tr><th>اليوم</th><th>التاريخ</th><th>الكمي المنجز</th><th>اللفظي المنجز</th><th>مراجعة الأسبوع</th><th>الحالة</th></tr></thead>
+            <tbody id="completionTable"></tbody>
+          </table>
+        </div>
+      </section>
+      <p class="footer-note">ملفات الإصدارات وملخص التأسيس غير مرفقة حاليًا. سجّل نتيجة المحاكي يدويًا بعد الاختبار. اربط حساب Google لمزامنة تقدمك بين أجهزتك.</p>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="setupModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <h2 id="modalTitle">ابدأ خطة التدريب</h2>
+      <p>حدّد بداية التدريب ونهايته وأيام الإجازة وأيام المراجعة. لا تتوزع أي تدريبات أو مهام في أيام المراجعة؛ الافتراضي هو السبت.</p>
+      <button class="btn" id="googleAuthSetupBtn" type="button">ربط حساب Google Drive</button>
+      <label for="startDate">تاريخ بداية الخطة</label>
+      <input class="date-input" id="startDate" type="date">
+      <label for="endDate">تاريخ نهاية الخطة</label>
+      <input class="date-input" id="endDate" type="date">
+      <label for="quantCompletedBeforePlan">الإصدارات الكمية المكتملة حتى الآن (من ١٣٠)</label>
+      <input class="date-input" id="quantCompletedBeforePlan" type="number" min="0" max="130" step="1" value="0">
+      <label for="verbalCompletedBeforePlan">الإصدارات اللفظية المكتملة حتى الآن (من ٣٠١)</label>
+      <input class="date-input" id="verbalCompletedBeforePlan" type="number" min="0" max="301" step="1" value="0">
+      <p class="panel-sub">ستُحتسب هذه الإصدارات ضمن إنجازك، وتبدأ الخطة من الإصدارات المتبقية في كل قسم.</p>
+      <label for="workMinutes">مدة المذاكرة في يوم العمل (بالدقائق، موزعة بالتساوي بين الكمي واللفظي)</label>
+      <input class="date-input" id="workMinutes" type="number" min="15" max="360" step="15" value="90">
+      <label>أيام المراجعة الأسبوعية</label>
+      <p class="panel-sub">اختر يومًا أو أكثر للمراجعة والملفات الفرز؛ لن تظهر أي مهام تدريبية في هذه الأيام.</p>
+      <div class="holiday-days" id="reviewDayOptions"></div>
+      <label>اختر أيام الإجازة لكل أسبوع</label>
+      <p class="panel-sub">يمكنك تغيير أيام الإجازة من أسبوع إلى آخر.</p>
+      <div id="weeklyHolidayOptions"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="savePlan" type="button">ابدأ الخطة</button>
+        <button class="btn hidden" id="cancelSetup" type="button">إلغاء</button>
+      </div>
+      <div class="backup-import" id="backupImportPanel">
+        <p>لنقل تقدمك من النسخة المحلية، اختر ملف النسخة الاحتياطية الذي نزلته سابقًا.</p>
+        <input id="backupImportFile" type="file" accept=".json,application/json">
+        <button class="btn" id="importBackupBtn" type="button">استيراد نسخة احتياطية</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop hidden" id="resetModal" role="dialog" aria-modal="true" aria-labelledby="resetTitle">
+    <div class="modal">
+      <h2 id="resetTitle">إعادة تعيين الموقع؟</h2>
+      <p id="resetDescription">سيُحذف تقدمك ونتائجك وسجل الحضور والإجازات، ثم تعود إلى إعداد الخطة. لا يمكن التراجع عن ذلك.</p>
+      <p id="resetError" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="confirmReset" type="button">تأكيد إعادة التعيين</button>
+        <button class="btn" id="cancelReset" type="button">إلغاء</button>
+      </div>
+    </div>
+  </div>
+  <div class="challenge-backdrop hidden" id="challengeModal">
+    <section class="challenge-dialog" role="dialog" aria-modal="true" aria-labelledby="challengeDialogHeading">
+      <div class="challenge-topline">
+        <span class="challenge-kicker" id="challengeDialogHeading">🔥 تحدي الأسبوع</span>
+        <button class="btn challenge-close" id="closeChallenge" type="button">إلغاء التحدي</button>
+      </div>
+      <div id="challengeIntro">
+        <h2 id="challengeTitle">١٠ أسئلة.. ١٠ دقائق لجميع الأسئلة!</h2>
+        <p class="challenge-copy">ركّز، تحدَّ الوقت، واجمع أكبر عدد من النقاط. يبدأ التحدي بسؤال كمي ثم لفظي بالتناوب، بينما تتغير الأسئلة ومستوياتها عشوائيًا بين السهل والمتوسط والصعب. لديك ١٠ دقائق لإكمال جميع الأسئلة، ويبدأ المؤقت عند بدء التحدي. لا تظهر الإجابات أو نتيجة كل سؤال إلا بعد انتهاء التحدي. بعد تسجيل النتيجة لا يمكن إعادة التحدي حتى الأسبوع القادم. هذه أسئلة تدريبية أصلية وليست من الاختبار الرسمي.</p>
+        <button class="btn btn-primary challenge-start" id="startChallenge" type="button">ابدأ التحدي الآن 🚀</button>
+      </div>
+      <div id="challengePlayArea" class="hidden">
+        <div class="challenge-stats"><span id="challengeQuestionCount">السؤال ١ من ١٠</span><span class="challenge-clock" id="challengeClock" aria-live="polite">١٠:٠٠</span></div>
+        <div class="challenge-progress"><div class="challenge-progress-bar" id="challengeProgressBar"></div></div>
+        <p class="challenge-category" id="challengeCategory"></p>
+        <h3 class="challenge-question" id="challengeQuestion"></h3>
+        <div class="challenge-choices" id="challengeChoices"></div>
+      </div>
+      <div id="challengeResult" class="challenge-result hidden">
+        <h2 id="challengeResultTitle">أكملت التحدي!</h2>
+        <span class="challenge-score" id="challengeScore"></span>
+        <div class="challenge-result-stars" id="challengeResultStars" aria-label="نجوم التحدي"></div>
+        <p class="challenge-result-copy" id="challengeResultCopy"></p>
+        <div class="challenge-answer-review" id="challengeAnswerReview"></div>
+        <button class="btn btn-primary" id="finishChallenge" type="button">العودة إلى مراجعة الأسبوع</button>
+      </div>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop hidden" id="attendanceResult" role="dialog" aria-modal="true" aria-labelledby="attendanceResultTitle">
+    <div class="modal attendance-result">
+      <div class="attendance-result-icon" id="attendanceResultIcon" aria-hidden="true">✓</div>
+      <h2 id="attendanceResultTitle">تم الحضور</h2>
+      <p id="attendanceResultCopy"></p>
+      <button class="btn btn-primary" id="closeAttendanceResult" type="button">العودة إلى الموقع</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+      const STORAGE_KEY = "miyaar-qiyas-training-v3";
+      const PREVIOUS_STORAGE_KEY = "miyaar-qiyas-training-v2";
+      const LEGACY_STORAGE_KEY = "miyaar-qudrat-month-v1";
+      const QUANT_COUNT = 130;
+      const VERBAL_COUNT = 301;
+      const EDITION_COUNT = QUANT_COUNT + VERBAL_COUNT;
+      const LEGACY_QUANT_COUNT = 65;
+      const LEGACY_EDITION_COUNT = 130;
+      const ATTENDANCE_REWARD_QUESTIONS = 2;
+      const BASE_CHALLENGE_QUESTIONS = 10;
+      const PERFECT_CHALLENGE_REWARD_QUESTIONS = BASE_CHALLENGE_QUESTIONS / 2;
+      const MIN_CHALLENGE_QUESTIONS = 3;
+      const APPS_SCRIPT_USER_KEY = "miyaar-qiyas-apps-script-user";
+      const GOOGLE_DRIVE_SYNC_INTERVAL_MS = 15000;
+      const WEEKLY_REVIEW_ITEMS = ["أسئلة الفرز للكمي", "مراجعة اللفظي", "ملخص التأسيس"];
+      const CHALLENGE_QUESTIONS = [
+        { id: "q-percent-25", category: "كمي", difficulty: "easy", question: "كم يساوي ٢٥٪ من ٢٤٠؟", options: ["٤٨", "٥٠", "٦٠", "٧٢"], answer: 2, explanation: "٢٥٪ تساوي الربع، وربع ٢٤٠ هو ٦٠." },
+        { id: "v-dauub", category: "لفظي", difficulty: "easy", question: "ما المرادف الأقرب لكلمة «دؤوب»؟", options: ["متكاسل", "مجتهد", "متردد", "مندهش"], answer: 1, explanation: "دؤوب تعني مواظبًا ومجتهدًا في عمله." },
+        { id: "q-pattern-double", category: "كمي", difficulty: "medium", question: "ما العدد التالي في النمط: ٤، ٩، ١٩، ٣٩، ...؟", options: ["٥٩", "٦٩", "٧٨", "٧٩"], answer: 3, explanation: "نضرب كل حد في ٢ ثم نضيف ١؛ لذلك ٣٩ × ٢ + ١ = ٧٩." },
+        { id: "v-doctor-teacher", category: "لفظي", difficulty: "easy", question: "طبيب : مريض، مثل معلم : ...", options: ["كتاب", "مدرسة", "طالب", "قلم"], answer: 2, explanation: "الطبيب يقدم الرعاية للمريض، والمعلم يعلّم الطالب." },
+        { id: "q-ratio-2-5", category: "كمي", difficulty: "easy", question: "النسبة بين عددين ٢ إلى ٥. إذا كان الأصغر ١٨، فما الأكبر؟", options: ["٣٦", "٤٥", "٥٠", "٦٠"], answer: 1, explanation: "الحصتان تساويان ١٨، فالحصة ٩؛ إذن خمس حصص تساوي ٤٥." },
+        { id: "v-temporary-antonym", category: "لفظي", difficulty: "easy", question: "ما ضد كلمة «مؤقت»؟", options: ["دائم", "عابر", "عاجل", "سريع"], answer: 0, explanation: "المؤقت محدود الزمن، وضده ما يستمر ولا ينقطع: دائم." },
+        { id: "q-average", category: "كمي", difficulty: "easy", question: "ما متوسط الأعداد ١٤، ١٨، ٢٢، ٢٦؟", options: ["١٨", "١٩", "٢٠", "٢١"], answer: 2, explanation: "نجمع الأعداد (٨٠) ثم نقسم على عددها (٤)، فيكون المتوسط ٢٠." },
+        { id: "v-birds-inference", category: "لفظي", difficulty: "medium", question: "كل العصافير طيور، وبعض الطيور لا تطير. أي عبارة مؤكدة؟", options: ["كل الطيور تطير", "بعض الطيور لا تطير", "كل الطيور عصافير", "لا يطير أي عصفور"], answer: 1, explanation: "المقدمة تنص مباشرة على أن بعض الطيور لا تطير؛ أما العبارات الأخرى فلا تلزم منها." },
+        { id: "q-rectangle-area", category: "كمي", difficulty: "medium", question: "مستطيل محيطه ٣٤ سم وطوله ١٠ سم. ما مساحته؟", options: ["٦٠ سم²", "٦٨ سم²", "٧٠ سم²", "٨٠ سم²"], answer: 2, explanation: "مجموع الطول والعرض ١٧ لأن نصف المحيط ١٧؛ العرض ٧، والمساحة ١٠ × ٧ = ٧٠." },
+        { id: "v-seed-project", category: "لفظي", difficulty: "medium", question: "بذرة : نبتة، مثل فكرة : ...", options: ["مشروع", "ورقة", "معرفة", "قلم"], answer: 0, explanation: "البذرة قد تنمو إلى نبتة، والفكرة قد تتطور إلى مشروع." },
+        { id: "q-three-fifths", category: "كمي", difficulty: "easy", question: "ثلاثة أخماس العدد ٤٠ تساوي؟", options: ["٢٠", "٢٤", "٢٨", "٣٢"], answer: 1, explanation: "٤٠ ÷ ٥ = ٨، ثم ٨ × ٣ = ٢٤." },
+        { id: "v-wajeez", category: "لفظي", difficulty: "easy", question: "ما أقرب معنى لكلمة «وجيز»؟", options: ["مختصر", "غامض", "طويل", "قديم"], answer: 0, explanation: "الوجيز هو الكلام أو الشيء القليل المختصر." },
+        { id: "q-hours-minutes", category: "كمي", difficulty: "easy", question: "ساعة ونصف تساوي كم دقيقة؟", options: ["٦٠", "٧٥", "٩٠", "١٢٠"], answer: 2, explanation: "الساعة ٦٠ دقيقة ونصفها ٣٠؛ المجموع ٩٠ دقيقة." },
+        { id: "v-winter-summer", category: "لفظي", difficulty: "easy", question: "شتاء : برد، كما صيف : ...", options: ["حرارة", "مطر", "رياح", "اعتدال"], answer: 0, explanation: "البرد من صفات الشتاء، والحرارة من صفات الصيف." },
+        { id: "q-linear-equation", category: "كمي", difficulty: "medium", question: "إذا كان ٢س + ٧ = ٢٥، فما قيمة س؟", options: ["٧", "٨", "٩", "١٠"], answer: 2, explanation: "نطرح ٧ من الطرفين فنحصل على ٢س = ١٨، ثم نقسم على ٢: س = ٩." },
+        { id: "v-key-pen", category: "لفظي", difficulty: "medium", question: "مفتاح : فتح، كما قلم : ...", options: ["كتابة", "قراءة", "قص", "قياس"], answer: 0, explanation: "المفتاح أداة للفتح، والقلم أداة للكتابة." },
+        { id: "q-discount-20", category: "كمي", difficulty: "medium", question: "ثمن حقيبة ١٥٠ ريالًا، خُفّض سعرها ٢٠٪. كم أصبح سعرها؟", options: ["١١٠", "١٢٠", "١٢٥", "١٣٠"], answer: 1, explanation: "٢٠٪ من ١٥٠ تساوي ٣٠؛ نطرح الخصم من السعر: ١٥٠ − ٣٠ = ١٢٠." },
+        { id: "v-priorities", category: "لفظي", difficulty: "medium", question: "على الرغم من قصر الوقت، رتبت نورة أولوياتها وأنجزت الأهم. ما الاستنتاج الأنسب؟", options: ["لم يكن لديها أي عمل", "ساعدها ترتيب الأولويات على إنجاز الأهم", "أجّلت جميع مهامها", "أنجزت كل شيء في الوقت نفسه"], answer: 1, explanation: "النص يربط ترتيب الأولويات بإنجاز نورة للمهام الأهم رغم قصر الوقت." },
+        { id: "q-red-blue-probability", category: "كمي", difficulty: "medium", question: "في كيس ٣ كرات حمراء و٥ زرقاء. ما احتمال سحب كرة حمراء؟", options: ["٣⁄٥", "٣⁄٨", "٥⁄٨", "١⁄٨"], answer: 1, explanation: "عدد الكرات ٨، منها ٣ حمراء؛ الاحتمال ٣ من ٨." },
+        { id: "v-doctor-school", category: "لفظي", difficulty: "medium", question: "طبيب : مستشفى، كما معلم : ...", options: ["مدرسة", "دفتر", "طالب", "حصة"], answer: 0, explanation: "المستشفى مكان عمل الطبيب، والمدرسة مكان عمل المعلم." },
+        { id: "q-triangular-pattern", category: "كمي", difficulty: "hard", question: "ما العدد التالي في النمط: ٢، ٦، ١٢، ٢٠، ٣٠، ...؟", options: ["٣٦", "٤٠", "٤٢", "٤٨"], answer: 2, explanation: "الفروق ٤، ٦، ٨، ١٠؛ الفرق التالي ١٢، لذا ٣٠ + ١٢ = ٤٢." },
+        { id: "q-average-speed", category: "كمي", difficulty: "hard", question: "قطعت سيارة ١٨٠ كم في ساعتين ونصف. فما متوسط سرعتها؟", options: ["٦٠ كم/س", "٧٠ كم/س", "٧٢ كم/س", "٧٥ كم/س"], answer: 2, explanation: "متوسط السرعة = المسافة ÷ الزمن = ١٨٠ ÷ ٢٫٥ = ٧٢ كم/س." },
+        { id: "q-rectangle-difference", category: "كمي", difficulty: "hard", question: "مستطيل محيطه ٥٤ سم، وطوله يزيد ٧ سم على عرضه. ما مساحته؟", options: ["١٥٠ سم²", "١٦٠ سم²", "١٧٠ سم²", "١٨٠ سم²"], answer: 2, explanation: "مجموع الطول والعرض ٢٧، والفرق ٧؛ العرض ١٠ والطول ١٧، فالمساحة ١٧٠ سم²." },
+        { id: "q-two-white-balls", category: "كمي", difficulty: "hard", question: "في صندوق ٤ كرات بيضاء و٣ سوداء. ما احتمال سحب كرتين بيضاوين متتاليتين دون إرجاع؟", options: ["٢⁄٧", "٣⁄٧", "٤⁄٧", "١⁄٣"], answer: 0, explanation: "احتمال البيضاء الأولى ٤⁄٧، ثم ٣⁄٦ للثانية؛ حاصل الضرب ١٢⁄٤٢ = ٢⁄٧." },
+        { id: "q-linear-three", category: "كمي", difficulty: "hard", question: "إذا ضُرب عدد في ٣ ثم طُرح منه ٨ فكان الناتج ٢٨، فما العدد؟", options: ["٨", "١٢", "١٤", "١٦"], answer: 1, explanation: "نضيف ٨ إلى ٢٨ فنحصل على ٣٦، ثم نقسم على ٣؛ العدد ١٢." },
+        { id: "v-tawajus", category: "لفظي", difficulty: "hard", question: "ما أقرب معنى لكلمة «توجّس»؟", options: ["اطمأن", "قلق", "فرح", "تفاءل"], answer: 1, explanation: "التوجس هو الشعور بالقلق أو الخشية من أمر ما." },
+        { id: "v-researchers-writers", category: "لفظي", difficulty: "hard", question: "كل الباحثين يدققون المصادر، وبعض الكتّاب باحثون. ما النتيجة اللازمة؟", options: ["بعض الكتّاب يدققون المصادر", "كل الكتّاب باحثون", "بعض الباحثين لا يدققون", "لا يوجد كاتب يدقق المصادر"], answer: 0, explanation: "بعض الكتّاب باحثون، وكل الباحثين يدققون المصادر؛ إذن بعض الكتّاب يدققونها." },
+        { id: "v-respect-contrast", category: "لفظي", difficulty: "hard", question: "يمكن الاختلاف في الرأي دون أن ______ احترام الطرف الآخر.", options: ["يُخلّ بـ", "يُسهم في", "يستند إلى", "يتراجع عن"], answer: 0, explanation: "التعبير الصحيح هو «يُخلّ باحترامه»، أي لا ينتقص منه أو يسيء إليه." },
+        { id: "v-compass-scale", category: "لفظي", difficulty: "hard", question: "بوصلة : اتجاه، كما ميزان : ...", options: ["حرارة", "وزن", "زمن", "مسافة"], answer: 1, explanation: "البوصلة تحدد الاتجاه، والميزان يقيس الوزن." },
+        { id: "v-report-inference", category: "لفظي", difficulty: "hard", question: "وصل التقرير يوم الأربعاء، وانتهى الاجتماع يوم الثلاثاء، وآخر موعد للتسليم الخميس. أي عبارة صحيحة؟", options: ["وصل التقرير بعد الاجتماع وقبل الموعد النهائي", "وصل التقرير قبل الاجتماع", "تأخر التقرير عن الموعد النهائي", "عُقد الاجتماع بعد التسليم"], answer: 0, explanation: "الأربعاء يأتي بعد الثلاثاء وقبل الخميس؛ لذلك وصل التقرير بعد الاجتماع وقبل الموعد النهائي." }
+      ];
+      const DIFFICULTY_LABELS = { easy: "سهل", medium: "متوسط", hard: "صعب" };
+      const PDF_FILES = {};
+      const dayPicker = document.getElementById("dayPicker");
+      const dayCard = document.getElementById("dayCard");
+      const setupModal = document.getElementById("setupModal");
+      const resetModal = document.getElementById("resetModal");
+      const challengeModal = document.getElementById("challengeModal");
+      let state = loadState();
+      let selectedDay = 1;
+      let toastTimeout = null;
+      let holidayDraft = [];
+      let challengeState = null;
+      let challengeInterval = null;
+      let challengeAdvanceTimeout = null;
+      let googleDriveReady = false;
+      let googleDriveConnected = false;
+      let googleDriveEmail = "";
+      let googleDriveUserKey = null;
+      let googleDrivePollTimer = null;
+      let googleDriveWriteQueue = Promise.resolve();
+      let googleDriveWritesPending = 0;
+      let googleDriveSyncInProgress = false;
+      let googleDriveSession = 0;
+      const googleDriveSessionId = Date.now().toString(36) + Math.random().toString(36).slice(2);
+      let activeStorageKey = STORAGE_KEY;
+
+      function createEmptyState() {
+        return { startDate: null, endDate: null, startingCompletedQuant: 0, startingCompletedVerbal: 0, completedEditions: {}, attendance: {}, reviewChecks: {}, holidays: [], reviewDays: [6], workMinutes: 90, challengeResults: [], testResults: [], minutes: 0 };
+      }
+      function normalizeState(saved) {
+        const source = saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+        const completed = source.completedEditions && typeof source.completedEditions === "object" ? source.completedEditions : {};
+        const savedHolidays = Array.isArray(source.holidays) ? Array.from(new Set(source.holidays.filter(validDate))) : [];
+        const savedChallengeResults = Array.isArray(source.challengeResults)
+          ? source.challengeResults.filter(function (result) {
+            const questionCount = result && Number.isInteger(result.questionCount) && result.questionCount >= MIN_CHALLENGE_QUESTIONS && result.questionCount <= BASE_CHALLENGE_QUESTIONS ? result.questionCount : BASE_CHALLENGE_QUESTIONS;
+            return result && Number.isInteger(result.week) && result.week >= 0 && Number.isInteger(result.score) && result.score >= 0 && result.score <= questionCount && validDate(result.date);
+          }).map(function (result) {
+            const questionCount = Number.isInteger(result.questionCount) && result.questionCount >= MIN_CHALLENGE_QUESTIONS && result.questionCount <= BASE_CHALLENGE_QUESTIONS ? result.questionCount : BASE_CHALLENGE_QUESTIONS;
+            const questionIds = Array.isArray(result.questionIds) && result.questionIds.length === questionCount &&
+              result.questionIds.every(function (id) { return CHALLENGE_QUESTIONS.some(function (question) { return question.id === id; }); })
+              ? result.questionIds.slice()
+              : null;
+            return {
+              week: result.week,
+              score: result.score,
+              date: result.date,
+              questionCount: questionCount,
+              questionIds: questionIds,
+              answers: Array.from({ length: questionCount }, function (_, index) {
+                const answer = Array.isArray(result.answers) ? result.answers[index] : null;
+                return Number.isInteger(answer) && answer >= 0 && answer < 4 ? answer : null;
+              })
+            };
+          })
+          : [];
+        return {
+          startDate: validDate(source.startDate) ? source.startDate : null,
+          endDate: validDate(source.endDate) ? source.endDate : (validDate(source.startDate) ? addDays(source.startDate, 29) : null),
+          startingCompletedQuant: Number.isInteger(source.startingCompletedQuant) && source.startingCompletedQuant >= 0 && source.startingCompletedQuant <= QUANT_COUNT ? source.startingCompletedQuant : 0,
+          startingCompletedVerbal: Number.isInteger(source.startingCompletedVerbal) && source.startingCompletedVerbal >= 0 && source.startingCompletedVerbal <= VERBAL_COUNT ? source.startingCompletedVerbal : 0,
+          completedEditions: normalizeCompleted(completed),
+          attendance: normalizeAttendance(source.attendance),
+          reviewChecks: source.reviewChecks && typeof source.reviewChecks === "object" ? source.reviewChecks : {},
+          holidays: savedHolidays,
+          reviewDays: Array.isArray(source.reviewDays)
+            ? Array.from(new Set(source.reviewDays.filter(function (day) { return Number.isInteger(day) && day >= 0 && day <= 6; })))
+            : [6],
+          workMinutes: Number.isInteger(source.workMinutes) && source.workMinutes >= 15 && source.workMinutes <= 360 ? source.workMinutes : 90,
+          challengeResults: savedChallengeResults,
+          testResults: Array.isArray(source.testResults) ? source.testResults.filter(function (result) {
+            return result && Number.isFinite(result.score) && result.score >= 0 && result.score <= 100 && validDate(result.date);
+          }) : [],
+          minutes: Number.isFinite(source.minutes) && source.minutes >= 0 ? source.minutes : 0
+        };
+      }
+      function loadState() {
+        try {
+          const current = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+          const previous = current ? null : JSON.parse(localStorage.getItem(PREVIOUS_STORAGE_KEY) || "null");
+          const old = current || previous ? null : JSON.parse(localStorage.getItem(LEGACY_STORAGE_KEY) || "null");
+          return normalizeState(current || previous || old || {});
+        } catch (error) {
+          console.error("تعذر قراءة تقدم الطالب:", error);
+          return createEmptyState();
+        }
+      }
+      function normalizeAttendance(source) {
+        const normalized = {};
+        if (!source || typeof source !== "object" || Array.isArray(source)) return normalized;
+        Object.keys(source).forEach(function (date) {
+          const record = source[date];
+          if (!validDate(date) || !record || typeof record !== "object") return;
+          const checkIn = typeof record.checkIn === "string" && Number.isFinite(Date.parse(record.checkIn)) ? record.checkIn : null;
+          const checkOut = checkIn && typeof record.checkOut === "string" && Number.isFinite(Date.parse(record.checkOut)) ? record.checkOut : null;
+          const absence = !checkIn && !checkOut && (record.absence === "excused" || record.absence === "unexcused") ? record.absence : null;
+          if (checkIn || checkOut || absence) normalized[date] = { checkIn: checkIn, checkOut: checkOut, absence: absence };
+        });
+        return normalized;
+      }
+      function normalizeCompleted(source) {
+        const normalized = {};
+        Object.keys(source).forEach(function (key) {
+          if (source[key] !== true) return;
+          if (/^q-\d+$/.test(key) && Number(key.slice(2)) <= QUANT_COUNT) normalized[key] = true;
+          else if (/^v-\d+$/.test(key) && Number(key.slice(2)) <= VERBAL_COUNT) normalized[key] = true;
+          else if (/^\d+$/.test(key)) {
+            const oldId = Number(key);
+            if (oldId >= 1 && oldId <= LEGACY_QUANT_COUNT) normalized["q-" + oldId] = true;
+            else if (oldId > LEGACY_QUANT_COUNT && oldId <= LEGACY_EDITION_COUNT) normalized["v-" + (oldId - LEGACY_QUANT_COUNT)] = true;
+          }
+        });
+        return normalized;
+      }
+      function saveState() {
+        try {
+          localStorage.setItem(activeStorageKey, JSON.stringify(state));
+          if (googleDriveReady) queueGoogleDriveSave();
+          return true;
+        } catch (error) {
+          console.error("تعذر حفظ تقدم الطالب:", error);
+          showToast("تعذر حفظ التقدم في هذا المتصفح.");
+          return false;
+        }
+      }
+      function setCloudStatus(message, status) {
+        const element = document.getElementById("cloudSyncStatus");
+        element.textContent = message;
+        element.dataset.state = status;
+      }
+      function getGoogleStorageKey(email) { return STORAGE_KEY + "-google-" + encodeURIComponent(email.toLowerCase()); }
+      function switchToGoogleAccount(email) {
+        if (activeGoogleEmail === email) return;
+        if (activeGoogleEmail) localStorage.setItem(activeStorageKey, JSON.stringify(state));
+        const accountStorageKey = getGoogleStorageKey(email);
+        let accountState = null;
+        try {
+          const saved = localStorage.getItem(accountStorageKey);
+          accountState = saved ? normalizeState(JSON.parse(saved)) : null;
+        } catch (error) {
+          console.error("تعذر قراءة التقدم المحلي لحساب Google:", error);
+        }
+        if (accountState) state = accountState;
+        else if (activeGoogleEmail || localStorage.getItem(GOOGLE_LINKED_KEY)) state = createEmptyState();
+        activeGoogleEmail = email;
+        activeStorageKey = accountStorageKey;
+        try {
+          localStorage.setItem(GOOGLE_LINKED_KEY, email);
+          localStorage.setItem(activeStorageKey, JSON.stringify(state));
+        } catch (error) {
+          console.error("تعذر حفظ التقدم المحلي لحساب Google:", error);
+        }
+        selectedDay = 1;
+        render();
+      }
+      function clearLocalStateKeys() {
+        [activeStorageKey, STORAGE_KEY, PREVIOUS_STORAGE_KEY, LEGACY_STORAGE_KEY].forEach(function (key) { localStorage.removeItem(key); });
+      }
+      function handleRemoteReset() {
+        state = createEmptyState();
+        try {
+          clearLocalStateKeys();
+        } catch (error) {
+          console.error("تعذر حذف النسخة المحلية بعد إعادة التعيين:", error);
+        }
+        selectedDay = 1;
+        render();
+        if (!attendanceView && !completionView) openSetup(false);
+        setCloudStatus("أُعيد تعيين بيانات Google Drive. ابدأ خطة جديدة.", "warning");
+      }
+      function applyRemoteDriveState(remoteState) {
+        const normalized = normalizeState(remoteState);
+        if (JSON.stringify(normalized) === JSON.stringify(state)) return;
+        if (state.startDate && !normalized.startDate) {
+          handleRemoteReset();
+          return;
+        }
+        state = normalized;
+        selectedDay = Math.max(1, Math.min(getTotalDays(), selectedDay));
+        try {
+          localStorage.setItem(activeStorageKey, JSON.stringify(state));
+        } catch (error) {
+          console.error("تعذر حفظ النسخة المحلية من بيانات Google Drive:", error);
+          setCloudStatus("متصل، لكن تعذر حفظ نسخة محلية على هذا الجهاز.", "warning");
+        }
+        if (state.startDate) setupModal.classList.add("hidden");
+        render();
+      }
+      function setGoogleDriveButtons(label, disabled) {
+        ["googleAuthBtn", "googleAuthSetupBtn"].forEach(function (id) {
+          const button = document.getElementById(id);
+          if (!button) return;
+          button.textContent = label;
+          button.disabled = Boolean(disabled);
+        });
+      }
+      function requestGoogleDriveToken(prompt) {
+        if (googleDriveTokenRequest) return googleDriveTokenRequest;
+        googleDriveTokenRequest = new Promise(function (resolve, reject) {
+          googleDriveTokenClient.callback = function (response) {
+            if (response.error) {
+              reject(new Error(response.error));
+              return;
+            }
+            googleDriveAccessToken = response.access_token;
+            googleDriveTokenExpiresAt = Date.now() + Number(response.expires_in || 3600) * 1000;
+            resolve(googleDriveAccessToken);
+          };
+          try {
+            googleDriveTokenClient.requestAccessToken({ prompt: prompt });
+          } catch (error) {
+            reject(error);
+          }
+        });
+        return googleDriveTokenRequest.then(function (token) {
+          googleDriveTokenRequest = null;
+          return token;
+        }, function (error) {
+          googleDriveTokenRequest = null;
+          throw error;
+        });
+      }
+      function ensureGoogleDriveToken() {
+        if (googleDriveAccessToken && googleDriveTokenExpiresAt > Date.now() + 60000) return Promise.resolve(googleDriveAccessToken);
+        if (!googleDriveTokenClient) return Promise.reject(new Error("Google Drive is not connected."));
+        return requestGoogleDriveToken("").catch(function (error) {
+          googleDriveReady = false;
+          setGoogleDriveButtons("إعادة ربط Google Drive", false);
+          setCloudStatus("انتهت صلاحية إذن Google؛ أعد ربط Google Drive.", "warning");
+          throw error;
+        });
+      }
+      async function googleDriveRequest(url, options) {
+        const token = await ensureGoogleDriveToken();
+        const requestOptions = options || {};
+        const headers = Object.assign({}, requestOptions.headers || {}, { Authorization: "Bearer " + token });
+        const response = await fetch(url, Object.assign({}, requestOptions, { headers: headers }));
+        if (!response.ok) {
+          const error = new Error("Google Drive request failed with status " + response.status + ".");
+          error.status = response.status;
+          if (response.status === 401) {
+            googleDriveAccessToken = "";
+            googleDriveTokenExpiresAt = 0;
+            googleDriveReady = false;
+            setGoogleDriveButtons("إعادة ربط Google Drive", false);
+            setCloudStatus("انتهت صلاحية إذن Google؛ أعد ربط Google Drive.", "warning");
+          }
+          if (response.status === 403) {
+            googleDriveReady = false;
+            setGoogleDriveButtons("إعادة ربط Google Drive", false);
+          }
+          throw error;
+        }
+        return response;
+      }
+      async function getGoogleDriveStateFile() {
+        const query = "name = '" + GOOGLE_DRIVE_FILE_NAME + "' and 'appDataFolder' in parents and trashed = false";
+        const parameters = new URLSearchParams({
+          spaces: "appDataFolder",
+          q: query,
+          fields: "files(id,name,modifiedTime)",
+          orderBy: "modifiedTime desc",
+          pageSize: "1"
+        });
+        const response = await googleDriveRequest("https://www.googleapis.com/drive/v3/files?" + parameters.toString());
+        const result = await response.json();
+        return Array.isArray(result.files) && result.files.length ? result.files[0] : null;
+      }
+      async function readGoogleDriveState() {
+        if (!googleDriveFileId) return null;
+        const response = await googleDriveRequest("https://www.googleapis.com/drive/v3/files/" + encodeURIComponent(googleDriveFileId) + "?alt=media");
+        const record = await response.json();
+        if (!record || record.format !== "miyaar-qiyas-drive-v1" || !record.state || typeof record.state !== "object" || Array.isArray(record.state)) {
+          throw new Error("Google Drive contains an invalid training state.");
+        }
+        return record;
+      }
+      async function writeGoogleDriveState(stateSnapshot, updatedAt) {
+        const record = {
+          format: "miyaar-qiyas-drive-v1",
+          state: stateSnapshot,
+          updatedAt: updatedAt || new Date().toISOString(),
+          writerId: googleDriveSessionId
+        };
+        if (!googleDriveFileId) {
+          const boundary = "miyaar_" + googleDriveSessionId;
+          const metadata = { name: GOOGLE_DRIVE_FILE_NAME, mimeType: "application/json", parents: ["appDataFolder"] };
+          const body = "--" + boundary + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" +
+            JSON.stringify(metadata) + "\r\n--" + boundary + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" +
+            JSON.stringify(record) + "\r\n--" + boundary + "--";
+          const createdResponse = await googleDriveRequest("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id", {
+            method: "POST",
+            headers: { "Content-Type": "multipart/related; boundary=" + boundary },
+            body: body
+          });
+          const createdFile = await createdResponse.json();
+          if (!createdFile.id) throw new Error("Google Drive did not return a file ID.");
+          googleDriveFileId = createdFile.id;
+          return;
+        }
+        await googleDriveRequest("https://www.googleapis.com/upload/drive/v3/files/" + encodeURIComponent(googleDriveFileId) + "?uploadType=media", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(record)
+        });
+      }
+      function queueGoogleDriveSave() {
+        const stateSnapshot = JSON.parse(JSON.stringify(state));
+        const updatedAt = new Date().toISOString();
+        const session = googleDriveSession;
+        const accountEmail = activeGoogleEmail;
+        googleDriveWritesPending++;
+        googleDriveWriteQueue = googleDriveWriteQueue.then(async function () {
+          if (!googleDriveReady || session !== googleDriveSession || accountEmail !== activeGoogleEmail) return;
+          await writeGoogleDriveState(stateSnapshot, updatedAt);
+        }).then(function () {
+          if (googleDriveReady) setCloudStatus("متصل بـ Google Drive · تتم المزامنة تلقائيًا.", "connected");
+        }).catch(function (error) {
+          console.error("تعذر مزامنة التقدم مع Google Drive:", error);
+          const message = error.status === 403
+            ? "تعذر الوصول إلى Google Drive؛ تحقق من تفعيل Drive API والإذن."
+            : "تعذرت المزامنة؛ تغييراتك محفوظة على هذا الجهاز.";
+          setCloudStatus(message, "error");
+        }).then(function () {
+          googleDriveWritesPending = Math.max(0, googleDriveWritesPending - 1);
+        });
+      }
+      function getGoogleStorageKey(email) { return STORAGE_KEY + "-google-" + encodeURIComponent(email.toLowerCase()); }
+      function switchToGoogleAccount(email) {
+        if (activeGoogleEmail === email) return;
+        if (activeGoogleEmail) localStorage.setItem(activeStorageKey, JSON.stringify(state));
+        const accountStorageKey = getGoogleStorageKey(email);
+        let accountState = null;
+        try {
+          const saved = localStorage.getItem(accountStorageKey);
+          accountState = saved ? normalizeState(JSON.parse(saved)) : null;
+        } catch (error) {
+          console.error("تعذر قراءة التقدم المحلي لحساب Google:", error);
+        }
+        if (accountState) state = accountState;
+        else if (activeGoogleEmail || localStorage.getItem(GOOGLE_LINKED_KEY)) state = createEmptyState();
+        activeGoogleEmail = email;
+        activeStorageKey = accountStorageKey;
+        try {
+          localStorage.setItem(GOOGLE_LINKED_KEY, email);
+          localStorage.setItem(activeStorageKey, JSON.stringify(state));
+        } catch (error) {
+          console.error("تعذر حفظ التقدم المحلي لحساب Google:", error);
+        }
+        selectedDay = 1;
+        render();
+      }
+      function clearLocalStateKeys() {
+        [activeStorageKey, STORAGE_KEY, PREVIOUS_STORAGE_KEY, LEGACY_STORAGE_KEY].forEach(function (key) { localStorage.removeItem(key); });
+      }
+      function handleRemoteReset() {
+        state = createEmptyState();
+        try {
+          clearLocalStateKeys();
+        } catch (error) {
+          console.error("تعذر حذف النسخة المحلية بعد إعادة التعيين:", error);
+        }
+        selectedDay = 1;
+        render();
+        if (!attendanceView && !completionView) openSetup(false);
+        setCloudStatus("أُعيد تعيين بيانات Google Drive. ابدأ خطة جديدة.", "warning");
+      }
+      function applyRemoteDriveState(remoteState) {
+        const normalized = normalizeState(remoteState);
+        if (JSON.stringify(normalized) === JSON.stringify(state)) return;
+        if (state.startDate && !normalized.startDate) {
+          handleRemoteReset();
+          return;
+        }
+        state = normalized;
+        selectedDay = Math.max(1, Math.min(getTotalDays(), selectedDay));
+        try {
+          localStorage.setItem(activeStorageKey, JSON.stringify(state));
+        } catch (error) {
+          console.error("تعذر حفظ النسخة المحلية من Google Drive:", error);
+          setCloudStatus("متصل، لكن تعذر حفظ نسخة محلية على هذا الجهاز.", "warning");
+        }
+        if (state.startDate) setupModal.classList.add("hidden");
+        render();
+      }
+      async function pollGoogleDriveState() {
+        if (!googleDriveReady || googleDriveWritesPending || googleDriveSyncInProgress) return;
+        googleDriveSyncInProgress = true;
+        const session = googleDriveSession;
+        try {
+          if (!googleDriveFileId) {
+            const file = await getGoogleDriveStateFile();
+            if (session !== googleDriveSession) return;
+            if (!file) {
+              await writeGoogleDriveState(JSON.parse(JSON.stringify(state)), new Date().toISOString());
+              return;
+            }
+            googleDriveFileId = file.id;
+          }
+          const record = await readGoogleDriveState();
+          if (session !== googleDriveSession) return;
+          if (record && record.writerId !== googleDriveSessionId && JSON.stringify(normalizeState(record.state)) !== JSON.stringify(state)) {
+            applyRemoteDriveState(record.state);
+          }
+        } catch (error) {
+          console.error("تعذر جلب التحديثات من Google Drive:", error);
+          if (error.status === 404) googleDriveFileId = null;
+          else if (error.status === 403) setCloudStatus("تعذر الوصول إلى Google Drive؛ تحقق من الإذن وDrive API.", "error");
+          else setCloudStatus("تعذر جلب تحديثات Google Drive؛ تحقق من الاتصال والملف.", "error");
+        } finally {
+          googleDriveSyncInProgress = false;
+        }
+      }
+      function startGoogleDrivePolling() {
+        if (googleDrivePollTimer !== null) clearInterval(googleDrivePollTimer);
+        googleDrivePollTimer = setInterval(pollGoogleDriveState, DRIVE_SYNC_INTERVAL_MS);
+      }
+      function disconnectGoogleDrive() {
+        googleDriveSession++;
+        if (googleDrivePollTimer !== null) clearInterval(googleDrivePollTimer);
+        googleDrivePollTimer = null;
+        googleDriveConnected = false;
+        googleDriveReady = false;
+        googleDriveAccessToken = "";
+        googleDriveTokenExpiresAt = 0;
+        googleDriveFileId = null;
+        if (activeGoogleEmail) {
+          try {
+            localStorage.setItem(activeStorageKey, JSON.stringify(state));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          } catch (error) {
+            console.error("تعذر حفظ التقدم محليًا عند فصل Google Drive:", error);
+          }
+        }
+        activeGoogleEmail = null;
+        activeStorageKey = STORAGE_KEY;
+        setGoogleDriveButtons("ربط حساب Google Drive", false);
+        document.getElementById("resetDescription").textContent = "سيُحذف تقدمك ونتائجك وسجل الحضور والإجازات من هذا الجهاز، ثم تعود إلى إعداد الخطة. لا يمكن التراجع عن ذلك.";
+        setCloudStatus("تم فصل Google Drive؛ التقدم محفوظ على هذا الجهاز.", "warning");
+      }
+      function initializeGoogleDriveTokenClient() {
+        const config = window.MIYAAR_GOOGLE_CONFIG;
+        if (!config || typeof config.clientId !== "string" || !config.clientId.trim()) {
+          throw new Error("Google OAuth client ID is missing.");
+        }
+        if (!window.google || !window.google.accounts || !window.google.accounts.oauth2) {
+          throw new Error("Google Identity Services did not load.");
+        }
+        if (!googleDriveTokenClient) {
+          googleDriveTokenClient = window.google.accounts.oauth2.initTokenClient({
+            client_id: config.clientId,
+            scope: GOOGLE_DRIVE_SCOPE,
+            callback: function () {}
+          });
+        }
+      }
+      async function connectGoogleDrive() {
+        const session = ++googleDriveSession;
+        try {
+          initializeGoogleDriveTokenClient();
+        } catch (error) {
+          console.error("تعذر تهيئة تسجيل Google Drive:", error);
+          showToast("أدخل OAuth Client ID في google-config.js وأعد تحميل الموقع.");
+          setCloudStatus("مزامنة Google Drive غير مهيأة؛ التقدم محفوظ محليًا.", "warning");
+          return;
+        }
+        const prompt = localStorage.getItem(GOOGLE_LINKED_KEY) ? "select_account" : "consent";
+        const tokenRequest = requestGoogleDriveToken(prompt);
+        setGoogleDriveButtons("جارٍ ربط Google Drive...", true);
+        document.body.classList.add("cloud-sync-loading");
+        setCloudStatus("جارٍ الاتصال بحساب Google Drive...", "warning");
+        try {
+          await tokenRequest;
+          if (session !== googleDriveSession) return;
+          const profileResponse = await googleDriveRequest("https://www.googleapis.com/oauth2/v3/userinfo");
+          const profile = await profileResponse.json();
+          if (!profile || typeof profile.email !== "string" || !profile.email) throw new Error("Google did not return an account email.");
+          switchToGoogleAccount(profile.email);
+          googleDriveEmail = profile.email;
+          googleDriveFileId = null;
+          const file = await getGoogleDriveStateFile();
+          if (session !== googleDriveSession) return;
+          if (file) {
+            googleDriveFileId = file.id;
+            const record = await readGoogleDriveState();
+            if (session !== googleDriveSession) return;
+            applyRemoteDriveState(record.state);
+          } else {
+            await writeGoogleDriveState(JSON.parse(JSON.stringify(state)), new Date().toISOString());
+          }
+          googleDriveConnected = true;
+          googleDriveReady = true;
+          setGoogleDriveButtons("قطع اتصال Google Drive", false);
+          document.getElementById("resetDescription").textContent = "سيُحذف تقدمك ونتائجك وسجل الحضور والإجازات من ملف Google Drive المرتبط على جميع أجهزتك، ثم تعود إلى إعداد الخطة. لا يمكن التراجع عن ذلك.";
+          setCloudStatus("متصل · " + googleDriveEmail + " · المزامنة تتم عبر Google Drive.", "connected");
+          startGoogleDrivePolling();
+        } catch (error) {
+          if (session !== googleDriveSession) return;
+          console.error("تعذر ربط حساب Google Drive:", error);
+          googleDriveConnected = false;
+          googleDriveReady = false;
+          const message = error.status === 403
+            ? "تعذر الوصول إلى Google Drive؛ فعّل Drive API وتحقق من الإذن."
+            : "تعذر ربط Google Drive؛ تحقق من إعداد OAuth وجرّب مجددًا.";
+          setCloudStatus(message, "error");
+          showToast(message);
+          setGoogleDriveButtons("إعادة ربط Google Drive", false);
+        } finally {
+          document.body.classList.remove("cloud-sync-loading");
+        }
+      }
+      function initializeGoogleDriveSync() {
+        const config = window.MIYAAR_GOOGLE_CONFIG;
+        if (!config || typeof config.clientId !== "string" || !config.clientId.trim()) {
+          setCloudStatus("أكمل إعداد Google Drive لمزامنة التقدم بين أجهزتك.", "warning");
+          setGoogleDriveButtons("ربط حساب Google Drive", false);
+          return;
+        }
+        setCloudStatus("اربط حساب Google Drive لمزامنة تقدمك.", "warning");
+      }
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden) pollGoogleDriveState();
+      });
+      window.addEventListener("focus", pollGoogleDriveState);
+      function hasAppsScriptBridge() {
+        return Boolean(window.google && window.google.script && window.google.script.run);
+      }
+      function callAppsScript(method, stateSnapshot) {
+        return new Promise(function (resolve, reject) {
+          if (!hasAppsScriptBridge()) {
+            reject(new Error("المزامنة متاحة عند فتح الموقع المنشور عبر Google Apps Script."));
+            return;
+          }
+          const runner = window.google.script.run
+            .withSuccessHandler(resolve)
+            .withFailureHandler(reject);
+          if (method === "getTrainingState") runner.getTrainingState();
+          else if (method === "saveTrainingState") {
+            runner.saveTrainingState(JSON.stringify(stateSnapshot), googleDriveSessionId);
+          } else reject(new Error("طلب مزامنة غير معروف."));
+        });
+      }
+      function setCloudStatus(message, status) {
+        const element = document.getElementById("cloudSyncStatus");
+        element.textContent = message;
+        element.dataset.state = status;
+      }
+      function setGoogleDriveButtons(label, disabled) {
+        ["googleAuthBtn", "googleAuthSetupBtn"].forEach(function (id) {
+          const button = document.getElementById(id);
+          if (!button) return;
+          button.textContent = label;
+          button.disabled = Boolean(disabled);
+        });
+      }
+      function getAppsScriptStorageKey(userKey) {
+        return STORAGE_KEY + "-google-" + encodeURIComponent(userKey);
+      }
+      function clearLocalStateKeys() {
+        [activeStorageKey, STORAGE_KEY, PREVIOUS_STORAGE_KEY, LEGACY_STORAGE_KEY].forEach(function (key) {
+          localStorage.removeItem(key);
+        });
+      }
+      function handleRemoteReset() {
+        state = createEmptyState();
+        try {
+          clearLocalStateKeys();
+        } catch (error) {
+          console.error("تعذر حذف النسخة المحلية بعد إعادة التعيين:", error);
+        }
+        selectedDay = 1;
+        render();
+        if (!attendanceView && !completionView) openSetup(false);
+        setCloudStatus("أُعيد تعيين بيانات Google Drive. ابدأ خطة جديدة.", "warning");
+      }
+      function applyRemoteDriveState(remoteState) {
+        const normalized = normalizeState(remoteState);
+        if (JSON.stringify(normalized) === JSON.stringify(state)) return;
+        if (state.startDate && !normalized.startDate) {
+          handleRemoteReset();
+          return;
+        }
+        state = normalized;
+        selectedDay = Math.max(1, Math.min(getTotalDays(), selectedDay));
+        try {
+          localStorage.setItem(activeStorageKey, JSON.stringify(state));
+        } catch (error) {
+          console.error("تعذر حفظ النسخة المحلية من Google Drive:", error);
+          setCloudStatus("متصل، لكن تعذر حفظ نسخة محلية على هذا الجهاز.", "warning");
+        }
+        if (state.startDate) setupModal.classList.add("hidden");
+        render();
+      }
+      function switchToAppsScriptAccount(userKey, remoteRecord) {
+        const previousUserKey = localStorage.getItem(APPS_SCRIPT_USER_KEY);
+        const accountStorageKey = getAppsScriptStorageKey(userKey);
+        if (remoteRecord && remoteRecord.state) {
+          state = normalizeState(remoteRecord.state);
+        } else if (previousUserKey && previousUserKey !== userKey) {
+          state = createEmptyState();
+        } else {
+          try {
+            const cachedState = localStorage.getItem(accountStorageKey);
+            if (cachedState) state = normalizeState(JSON.parse(cachedState));
+          } catch (error) {
+            console.error("تعذر قراءة التقدم المحلي لحساب Google:", error);
+          }
+        }
+        googleDriveUserKey = userKey;
+        activeStorageKey = accountStorageKey;
+        try {
+          localStorage.setItem(APPS_SCRIPT_USER_KEY, userKey);
+          localStorage.setItem(activeStorageKey, JSON.stringify(state));
+        } catch (error) {
+          console.error("تعذر حفظ التقدم المحلي لحساب Google:", error);
+        }
+        selectedDay = 1;
+        render();
+      }
+      async function writeGoogleDriveState(stateSnapshot) {
+        const response = await callAppsScript("saveTrainingState", stateSnapshot);
+        if (!response || response.userKey !== googleDriveUserKey) {
+          throw new Error("تغير حساب Google أثناء المزامنة.");
+        }
+        return response.record;
+      }
+      function queueGoogleDriveSave() {
+        const stateSnapshot = JSON.parse(JSON.stringify(state));
+        const session = googleDriveSession;
+        const userKey = googleDriveUserKey;
+        googleDriveWritesPending++;
+        googleDriveWriteQueue = googleDriveWriteQueue.then(async function () {
+          if (!googleDriveReady || session !== googleDriveSession || userKey !== googleDriveUserKey) return;
+          await writeGoogleDriveState(stateSnapshot);
+        }).then(function () {
+          if (googleDriveReady) setCloudStatus("متصل بحساب Google · تتم المزامنة تلقائيًا.", "connected");
+        }).catch(function (error) {
+          console.error("تعذر مزامنة التقدم مع Google Drive:", error);
+          setCloudStatus("تعذرت المزامنة؛ تغييراتك محفوظة على هذا الجهاز.", "error");
+        }).then(function () {
+          googleDriveWritesPending = Math.max(0, googleDriveWritesPending - 1);
+        });
+      }
+      async function pollGoogleDriveState() {
+        if (!googleDriveReady || googleDriveWritesPending || googleDriveSyncInProgress) return;
+        googleDriveSyncInProgress = true;
+        const session = googleDriveSession;
+        try {
+          const response = await callAppsScript("getTrainingState");
+          if (session !== googleDriveSession) return;
+          if (!response || response.userKey !== googleDriveUserKey) {
+            throw new Error("تغير حساب Google؛ أعد تحميل الموقع.");
+          }
+          if (response.record && response.record.writerId !== googleDriveSessionId) {
+            applyRemoteDriveState(response.record.state);
+          }
+        } catch (error) {
+          console.error("تعذر جلب التحديثات من Google Drive:", error);
+          setCloudStatus("تعذر جلب تحديثات Google Drive؛ تحقق من الاتصال ثم أعد المحاولة.", "error");
+        } finally {
+          googleDriveSyncInProgress = false;
+        }
+      }
+      function startGoogleDrivePolling() {
+        if (googleDrivePollTimer !== null) clearInterval(googleDrivePollTimer);
+        googleDrivePollTimer = setInterval(pollGoogleDriveState, GOOGLE_DRIVE_SYNC_INTERVAL_MS);
+      }
+      function disconnectGoogleDrive() {
+        setGoogleDriveButtons("مزامنة الآن", false);
+        if (googleDriveConnected) setCloudStatus("متصل · " + googleDriveEmail + " · المزامنة تتم عبر Google Drive.", "connected");
+      }
+      async function connectGoogleDrive() {
+        if (!hasAppsScriptBridge()) {
+          setCloudStatus("افتح رابط الموقع المنشور عبر Google Apps Script لتفعيل مزامنة Google.", "warning");
+          showToast("المزامنة تتطلب فتح الموقع المنشور عبر Google Apps Script.");
+          return;
+        }
+        const session = ++googleDriveSession;
+        setGoogleDriveButtons("جارٍ ربط Google Drive...", true);
+        document.body.classList.add("cloud-sync-loading");
+        setCloudStatus("جارٍ الاتصال بحساب Google...", "warning");
+        try {
+          const response = await callAppsScript("getTrainingState");
+          if (session !== googleDriveSession) return;
+          if (!response || typeof response.userKey !== "string" || !response.userKey) {
+            throw new Error("تعذر تحديد حساب Google الحالي.");
+          }
+          googleDriveEmail = response.email || "حساب Google";
+          switchToAppsScriptAccount(response.userKey, response.record);
+          googleDriveConnected = true;
+          googleDriveReady = true;
+          setGoogleDriveButtons("مزامنة الآن", false);
+          document.getElementById("resetDescription").textContent = "سيُحذف تقدمك ونتائجك وسجل الحضور والإجازات من ملف Google Drive المرتبط على جميع أجهزتك، ثم تعود إلى إعداد الخطة. لا يمكن التراجع عن ذلك.";
+          setCloudStatus("متصل · " + googleDriveEmail + " · المزامنة تتم عبر Google Drive.", "connected");
+          startGoogleDrivePolling();
+          if (!response.record) await writeGoogleDriveState(JSON.parse(JSON.stringify(state)));
+        } catch (error) {
+          if (session !== googleDriveSession) return;
+          console.error("تعذر ربط حساب Google Drive:", error);
+          googleDriveConnected = false;
+          googleDriveReady = false;
+          setCloudStatus("تعذر الاتصال بحساب Google عبر Apps Script. تحقق من صلاحيات النشر ثم أعد المحاولة.", "error");
+          showToast("تعذر الاتصال بحساب Google. أعد المحاولة.");
+          setGoogleDriveButtons("إعادة المحاولة", false);
+        } finally {
+          document.body.classList.remove("cloud-sync-loading");
+        }
+      }
+      function initializeGoogleDriveSync() {
+        if (!hasAppsScriptBridge()) {
+          setCloudStatus("افتح رابط الموقع المنشور عبر Google Apps Script لمزامنة تقدمك.", "warning");
+          setGoogleDriveButtons("ربط حساب Google", false);
+          return;
+        }
+        setCloudStatus("اربط حساب Google لمزامنة تقدمك بين أجهزتك.", "warning");
+        setGoogleDriveButtons("ربط حساب Google", false);
+      }
+      ["googleAuthBtn", "googleAuthSetupBtn"].forEach(function (id) {
+        document.getElementById(id).addEventListener("click", async function () {
+          if (googleDriveReady) {
+            await pollGoogleDriveState();
+            return;
+          }
+          await connectGoogleDrive();
+        });
+      });
+      function validDate(value) {
+        if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+        const parts = value.split("-").map(Number);
+        const date = new Date(parts[0], parts[1] - 1, parts[2]);
+        return date.getFullYear() === parts[0] && date.getMonth() === parts[1] - 1 && date.getDate() === parts[2];
+      }
+      function dateOrdinal(value) {
+        const parts = value.split("-").map(Number);
+        return Math.floor(Date.UTC(parts[0], parts[1] - 1, parts[2]) / 86400000);
+      }
+      function dateString(date) {
+        return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
+      }
+      function todayKey() { return dateString(new Date()); }
+      function addDays(value, days) {
+        const parts = value.split("-").map(Number);
+        return dateString(new Date(parts[0], parts[1] - 1, parts[2] + days));
+      }
+      function formatDate(value) {
+        if (!value) return "—";
+        const parts = value.split("-").map(Number);
+        return new Intl.DateTimeFormat("ar-SA-u-ca-gregory", { day: "numeric", month: "short", year: "numeric" }).format(new Date(parts[0], parts[1] - 1, parts[2]));
+      }
+      function formatWeekdayDate(value) {
+        if (!value) return "—";
+        const parts = value.split("-").map(Number);
+        const weekday = new Intl.DateTimeFormat("ar-SA-u-ca-gregory", { weekday: "long" }).format(new Date(parts[0], parts[1] - 1, parts[2]));
+        return weekday + " " + formatDate(value);
+      }
+      function getCurrentDay() {
+        if (!state.startDate) return 1;
+        return Math.max(1, Math.min(getTotalDays(), dateOrdinal(todayKey()) - dateOrdinal(state.startDate) + 1));
+      }
+      function getTotalDays() {
+        if (!state.startDate || !validDate(state.endDate) || dateOrdinal(state.endDate) < dateOrdinal(state.startDate)) return 30;
+        return dateOrdinal(state.endDate) - dateOrdinal(state.startDate) + 1;
+      }
+      function getWeekCount() { return Math.ceil(getTotalDays() / 7); }
+      function getDateForDay(day) { return addDays(state.startDate || todayKey(), day - 1); }
+      function getPlanDayForDate(value) {
+        if (!state.startDate || !validDate(value)) return null;
+        const day = dateOrdinal(value) - dateOrdinal(state.startDate) + 1;
+        return day >= 1 && day <= getTotalDays() ? day : null;
+      }
+      function isOffDay(day) {
+        return state.holidays.indexOf(getDateForDay(day)) !== -1;
+      }
+      function getWorkDays() {
+        const days = [];
+        for (let day = 1; day <= getTotalDays(); day++) if (!isOffDay(day)) days.push(day);
+        return days;
+      }
+      function getTrainingDays() {
+        return getWorkDays().filter(function (day) { return !isReviewDay(day); });
+      }
+      function getRemainingWorkDays(fromDay) {
+        return getTrainingDays().filter(function (day) { return day >= fromDay; });
+      }
+      function formatNumber(value) { return new Intl.NumberFormat("ar-SA").format(value); }
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (char) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+        });
+      }
+      function getDayAssignments(day) {
+        if (isOffDay(day) || isReviewDay(day)) return [];
+        const trainingDays = getTrainingDays();
+        const position = trainingDays.indexOf(day);
+        if (position === -1 || trainingDays.length === 0) return [];
+        function range(prefix, count) {
+          const startingCompleted = prefix === "q" ? state.startingCompletedQuant : state.startingCompletedVerbal;
+          const remainingCount = count - startingCompleted;
+          const first = Math.floor(position * remainingCount / trainingDays.length);
+          const last = Math.floor((position + 1) * remainingCount / trainingDays.length);
+          return Array.from({ length: Math.max(0, last - first) }, function (_, index) {
+            const number = startingCompleted + first + index + 1;
+            return { key: prefix + "-" + number, number: number, category: prefix };
+          });
+        }
+        return range("q", QUANT_COUNT).concat(range("v", VERBAL_COUNT));
+      }
+      function isEditionComplete(key) {
+        if (state.completedEditions[key] === true) return true;
+        if (key.indexOf("q-") === 0) return Number(key.slice(2)) <= state.startingCompletedQuant;
+        if (key.indexOf("v-") === 0) return Number(key.slice(2)) <= state.startingCompletedVerbal;
+        return false;
+      }
+      function getCompletedEditionCount(prefix, count) {
+        let completed = 0;
+        for (let number = 1; number <= count; number++) if (isEditionComplete(prefix + "-" + number)) completed++;
+        return completed;
+      }
+      function getDayDoneCount(day) {
+        return getDayAssignments(day).filter(function (issue) { return isEditionComplete(issue.key); }).length;
+      }
+      function getScheduledWorkDay(weekIndex, offset) {
+        const bounds = getWeekBounds(weekIndex);
+        const target = Math.min(bounds.start + offset, bounds.end);
+        for (let day = target; day >= bounds.start; day--) if (!isOffDay(day)) return day;
+        for (let day = target + 1; day <= bounds.end; day++) if (!isOffDay(day)) return day;
+        return null;
+      }
+      function getChallengeDayForWeek(weekIndex) {
+        const bounds = getWeekBounds(weekIndex);
+        const weekStart = getDateForDay(bounds.start).split("-").map(Number);
+        const weekday = new Date(weekStart[0], weekStart[1] - 1, weekStart[2]).getDay();
+        const thursday = bounds.start + (4 - weekday + 7) % 7;
+        return thursday <= bounds.end ? thursday : null;
+      }
+      function getReviewDayForWeek(weekIndex) {
+        const bounds = getWeekBounds(weekIndex);
+        const reviewDays = Array.isArray(state.reviewDays) && state.reviewDays.length ? state.reviewDays : [6];
+        for (let day = bounds.start; day <= bounds.end; day++) {
+          if (isOffDay(day)) continue;
+          const date = getDateForDay(day);
+          const parts = date.split("-").map(Number);
+          const weekday = new Date(parts[0], parts[1] - 1, parts[2]).getDay();
+          if (reviewDays.indexOf(weekday) !== -1) return day;
+        }
+        return null;
+      }
+      function isChallengeDay(day) { return day === getChallengeDayForWeek(getWeekIndex(day)); }
+      function isReviewDay(day) { return day === getReviewDayForWeek(getWeekIndex(day)); }
+      function getWeekIndex(day) { return Math.floor((day - 1) / 7); }
+      function getReviewChecks(weekIndex) { return Array.isArray(state.reviewChecks[String(weekIndex)]) ? state.reviewChecks[String(weekIndex)] : []; }
+      function getChallengeResultForWeek(weekIndex) {
+        for (let index = state.challengeResults.length - 1; index >= 0; index--) {
+          if (state.challengeResults[index].week === weekIndex) return state.challengeResults[index];
+        }
+        return null;
+      }
+      function getReviewItems(weekIndex) {
+        const items = WEEKLY_REVIEW_ITEMS.map(function (label) { return { label: label, exam: false }; });
+        if (getWeekBounds(weekIndex).end % 14 === 0) items.push({ label: "دخول الاختبار المحاكي وإتمامه", exam: true });
+        return items;
+      }
+      function getChallengeStars(score, questionCount) {
+        if (score === 0) return 0;
+        const scaledScore = Math.floor(score * BASE_CHALLENGE_QUESTIONS / questionCount);
+        if (scaledScore <= 4) return 1;
+        if (scaledScore <= 8) return 2;
+        return 3;
+      }
+      function getAttendanceWeekProgress(weekIndex) {
+        const bounds = getWeekBounds(weekIndex);
+        let workDays = 0;
+        let completedDays = 0;
+        for (let day = bounds.start; day <= bounds.end; day++) {
+          if (isOffDay(day)) continue;
+          workDays++;
+          const record = state.attendance[getDateForDay(day)];
+          if (record && record.checkIn && record.checkOut) completedDays++;
+        }
+        return { workDays: workDays, completedDays: completedDays, complete: workDays > 0 && completedDays === workDays };
+      }
+      function isAttendanceWeekComplete(weekIndex) { return getAttendanceWeekProgress(weekIndex).complete; }
+      function getChallengeQuestionCount(weekIndex) {
+        if (weekIndex === 0) return BASE_CHALLENGE_QUESTIONS;
+        const previousResult = getChallengeResultForWeek(weekIndex - 1);
+        const attendanceReward = isAttendanceWeekComplete(weekIndex - 1) ? ATTENDANCE_REWARD_QUESTIONS : 0;
+        const perfectScoreReward = previousResult && previousResult.score === previousResult.questionCount
+          ? PERFECT_CHALLENGE_REWARD_QUESTIONS
+          : 0;
+        return Math.max(MIN_CHALLENGE_QUESTIONS, BASE_CHALLENGE_QUESTIONS - attendanceReward - perfectScoreReward);
+      }
+      function shuffleChallengeQuestions(questions) {
+        const shuffled = questions.slice();
+        for (let index = shuffled.length - 1; index > 0; index--) {
+          const swapIndex = Math.floor(Math.random() * (index + 1));
+          const current = shuffled[index];
+          shuffled[index] = shuffled[swapIndex];
+          shuffled[swapIndex] = current;
+        }
+        return shuffled;
+      }
+      function selectChallengeQuestions(questionCount) {
+        const baseCount = Math.floor(questionCount / 3);
+        const remainder = questionCount % 3;
+        const quotas = [
+          { difficulty: "easy", count: baseCount + (remainder > 0 ? 1 : 0) },
+          { difficulty: "medium", count: baseCount + (remainder > 1 ? 1 : 0) },
+          { difficulty: "hard", count: baseCount }
+        ];
+        const selected = [];
+        const categoryCounts = { "كمي": 0, "لفظي": 0 };
+        quotas.forEach(function (quota) {
+          let candidates = shuffleChallengeQuestions(CHALLENGE_QUESTIONS.filter(function (question) { return question.difficulty === quota.difficulty; }));
+          for (let index = 0; index < quota.count; index++) {
+            const leastUsedCount = Math.min(categoryCounts["كمي"], categoryCounts["لفظي"]);
+            const balancedCandidates = candidates.filter(function (question) { return categoryCounts[question.category] === leastUsedCount; });
+            const choices = balancedCandidates.length ? balancedCandidates : candidates;
+            const selectedQuestion = choices[Math.floor(Math.random() * choices.length)];
+            selected.push(selectedQuestion);
+            categoryCounts[selectedQuestion.category]++;
+            candidates = candidates.filter(function (question) { return question.id !== selectedQuestion.id; });
+          }
+        });
+        const quantQuestions = shuffleChallengeQuestions(selected.filter(function (question) { return question.category === "كمي"; }));
+        const verbalQuestions = shuffleChallengeQuestions(selected.filter(function (question) { return question.category === "لفظي"; }));
+        const organizedQuestions = [];
+        for (let index = 0; index < Math.max(quantQuestions.length, verbalQuestions.length); index++) {
+          if (quantQuestions[index]) organizedQuestions.push(quantQuestions[index]);
+          if (verbalQuestions[index]) organizedQuestions.push(verbalQuestions[index]);
+        }
+        return organizedQuestions;
+      }
+      function isChallengeAvailableToday(weekIndex) {
+        const challengeDay = getChallengeDayForWeek(weekIndex);
+        return Boolean(state.startDate) &&
+          !getChallengeResultForWeek(weekIndex) &&
+          challengeDay !== null &&
+          getDateForDay(challengeDay) === todayKey() &&
+          new Date().getHours() >= 20;
+      }
+      function getChallengeStarCount() {
+        let total = 0;
+        for (let week = 0; week < getWeekCount(); week++) {
+          const result = getChallengeResultForWeek(week);
+          if (result) total += getChallengeStars(result.score, result.questionCount);
+        }
+        return total;
+      }
+      function isChallengeComplete(weekIndex) { return getReviewChecks(weekIndex)[getReviewItems(weekIndex).length] === true; }
+      function isReviewComplete(weekIndex) {
+        const checks = getReviewChecks(weekIndex);
+        const items = getReviewItems(weekIndex);
+        return items.every(function (_, index) { return checks[index] === true; });
+      }
+      function isDayComplete(day) {
+        if (isOffDay(day)) return false;
+        const issuesComplete = getDayDoneCount(day) === getDayAssignments(day).length;
+        const week = getWeekIndex(day);
+        return issuesComplete && (!isReviewDay(day) || isReviewComplete(week));
+      }
+      function canOpenDay(day) {
+        if (!Number.isInteger(day) || day < 1 || day > getTotalDays()) return false;
+        for (let previous = 1; previous < day; previous++) {
+          if (!isOffDay(previous) && !isDayComplete(previous)) return false;
+        }
+        return true;
+      }
+      function getWeekBounds(weekIndex) {
+        const start = weekIndex * 7 + 1;
+        return { start: start, end: Math.min(start + 6, getTotalDays()) };
+      }
+      function getWeekStats(weekIndex) {
+        const bounds = getWeekBounds(weekIndex);
+        let total = 0;
+        let done = 0;
+        let hasWorkday = false;
+        for (let day = bounds.start; day <= bounds.end; day++) {
+          if (!isOffDay(day)) hasWorkday = true;
+          total += getDayAssignments(day).length;
+          done += getDayDoneCount(day);
+        }
+        const reviewComplete = getReviewDayForWeek(weekIndex) === null || isReviewComplete(weekIndex);
+        return { start: bounds.start, end: bounds.end, total: total, done: done, reviewComplete: reviewComplete, complete: hasWorkday && total === done && reviewComplete };
+      }
+      function isTrainingComplete() {
+        if (!state.startDate) return false;
+        for (let week = 0; week < getWeekCount(); week++) {
+          const bounds = getWeekBounds(week);
+          let hasWorkday = false;
+          for (let day = bounds.start; day <= bounds.end; day++) {
+            if (!isOffDay(day)) hasWorkday = true;
+          }
+          if (hasWorkday && !getWeekStats(week).complete) return false;
+        }
+        return true;
+      }
+      function getStarCount() {
+        let count = 0;
+        for (let week = 0; week < getWeekCount(); week++) if (getWeekStats(week).complete) count++;
+        return count;
+      }
+      function attendanceTime(timestamp) {
+        return new Intl.DateTimeFormat("ar-SA", { hour: "numeric", minute: "2-digit" }).format(new Date(timestamp));
+      }
+      function renderAttendance() {
+        const today = todayKey();
+        const todayPlanDay = getPlanDayForDate(today);
+        const noWorkToday = Boolean(state.startDate) && (todayPlanDay === null || isOffDay(todayPlanDay));
+        const record = state.attendance[today] || {};
+        document.getElementById("attendanceCheckInStatus").textContent = record.absence
+          ? record.absence === "excused" ? "🚫 مسجل غياب بعذر" : "🚫 مسجل غياب بدون عذر"
+          : record.checkIn
+          ? "✅ تم الحضور الساعة " + attendanceTime(record.checkIn)
+          : noWorkToday ? "🌴 لا يوجد دوام اليوم" : "⬜ لم يُسجَّل الحضور اليوم";
+        document.getElementById("attendanceCheckOutStatus").textContent = record.absence
+          ? "— لا ينطبق بسبب الغياب"
+          : record.checkOut
+          ? "✅ تم الانصراف الساعة " + attendanceTime(record.checkOut)
+          : noWorkToday ? "🌴 لا يوجد دوام اليوم" : "⬜ لم يُسجَّل الانصراف اليوم";
+        document.getElementById("recordCheckIn").disabled = noWorkToday || Boolean(record.checkIn) || Boolean(record.absence);
+        document.getElementById("recordCheckOut").disabled = noWorkToday || !record.checkIn || Boolean(record.checkOut) || Boolean(record.absence);
+        const currentWeek = state.startDate ? getWeekIndex(getCurrentDay()) : 0;
+        const progress = state.startDate ? getAttendanceWeekProgress(currentWeek) : { workDays: 0, completedDays: 0, complete: false };
+        const currentChallengeResult = getChallengeResultForWeek(currentWeek);
+        const attendanceProgressText = "التزام هذا الأسبوع: " + formatNumber(progress.completedDays) + " من " + formatNumber(progress.workDays) + " أيام عمل مكتملة بالحضور والانصراف.";
+        const rewardStatus = document.getElementById("attendanceRewardStatus");
+        rewardStatus.textContent = !state.startDate
+          ? "ابدأ خطة التدريب لتحديد أيام العمل واحتساب مكافأة الحضور الأسبوعية."
+          : currentWeek > 0 && isAttendanceWeekComplete(currentWeek - 1)
+          ? currentChallengeResult
+            ? "🎁 استحققت مكافأة الالتزام. التحدي المسجل لهذا الأسبوع كان " + formatNumber(currentChallengeResult.questionCount) + " أسئلة. " + (progress.complete ? "واكتمل التزامك هذا الأسبوع أيضًا للتحدي التالي!" : attendanceProgressText)
+            : "🎁 مكافأة الالتزام مفعّلة: تحدي هذا الأسبوع " + formatNumber(getChallengeQuestionCount(currentWeek)) + " أسئلة بدلًا من " + formatNumber(BASE_CHALLENGE_QUESTIONS) + ". " + (progress.complete ? "واكتمل التزامك لهذا الأسبوع أيضًا!" : attendanceProgressText)
+          : progress.workDays === 0
+          ? "أيام هذا الأسبوع كلها إجازة، فلا يلزم فيها تسجيل حضور أو انصراف."
+          : progress.complete
+          ? "أحسنت! اكتمل حضورك وانصرافك لهذا الأسبوع؛ ستُخصم سؤالان من تحدي الأسبوع القادم."
+          : attendanceProgressText + " أكملها لتحصل على خصم سؤالين من تحدي الأسبوع القادم.";
+        document.getElementById("attendanceHostNote").textContent =
+          "التسجيل اليدوي يعمل على هذا المتصفح ويحفظ الحضور والانصراف منفصلين. تفعيل رموز QR للهاتف يتطلب نشر الموقع على رابط HTTPS.";
+        renderAttendanceSchedule();
+      }
+      function renderAttendanceSchedule() {
+        const table = document.getElementById("attendanceScheduleTable");
+        if (!state.startDate) {
+          table.innerHTML = '<tr><td colspan="5">ابدأ خطة التدريب لعرض أيام الحضور.</td></tr>';
+          return;
+        }
+        const workDays = getWorkDays();
+        if (!workDays.length) {
+          table.innerHTML = '<tr><td colspan="5">لا توجد أيام حضور؛ جميع أيام الخطة محددة كإجازة.</td></tr>';
+          return;
+        }
+        const todayOrdinal = dateOrdinal(todayKey());
+        table.innerHTML = workDays.map(function (day) {
+          const date = getDateForDay(day);
+          const dateDayOrdinal = dateOrdinal(date);
+          const isPastDate = dateDayOrdinal < todayOrdinal;
+          const isTodayDate = dateDayOrdinal === todayOrdinal;
+          const parts = date.split("-").map(Number);
+          const weekday = new Intl.DateTimeFormat("ar-SA-u-ca-gregory", { weekday: "long" }).format(new Date(parts[0], parts[1] - 1, parts[2]));
+          const record = state.attendance[date] || {};
+          const checkIn = record.absence
+            ? '<span class="status-pill pending">غياب</span>'
+            : record.checkIn
+            ? '<span class="status-pill complete">✓ ' + attendanceTime(record.checkIn) + '</span>'
+            : isPastDate
+            ? '<span class="status-pill pending">لم يُسجَّل</span>'
+            : isTodayDate
+            ? '<span class="status-pill pending">بانتظار التسجيل</span>'
+            : '<span class="status-pill future">مجدول</span>';
+          const checkOut = record.absence
+            ? '<span class="status-pill future">—</span>'
+            : record.checkOut
+            ? '<span class="status-pill complete">✓ ' + attendanceTime(record.checkOut) + '</span>'
+            : record.checkIn
+            ? '<span class="status-pill pending">بانتظار الانصراف</span>'
+            : isPastDate
+            ? '<span class="status-pill pending">لم يُسجَّل</span>'
+            : isTodayDate
+            ? '<span class="status-pill pending">بانتظار التسجيل</span>'
+            : '<span class="status-pill future">مجدول</span>';
+          const absenceDisabled = dateDayOrdinal > todayOrdinal || Boolean(record.checkIn) || Boolean(record.checkOut);
+          const absence = '<select class="date-input attendance-absence-select" data-attendance-date="' + date + '" aria-label="حالة الغياب ليوم ' + weekday + ' ' + formatDate(date) + '" ' + (absenceDisabled ? "disabled" : "") + '>' +
+            '<option value="" ' + (!record.absence ? "selected" : "") + '>لا يوجد غياب</option>' +
+            '<option value="excused" ' + (record.absence === "excused" ? "selected" : "") + '>غياب بعذر</option>' +
+            '<option value="unexcused" ' + (record.absence === "unexcused" ? "selected" : "") + '>غياب بدون عذر</option></select>';
+          return "<tr><td>" + weekday + "</td><td>" + formatDate(date) + "</td><td>" + checkIn + "</td><td>" + checkOut + "</td><td>" + absence + "</td></tr>";
+        }).join("");
+      }
+      function showAttendanceResult(success, title, copy) {
+        const icon = document.getElementById("attendanceResultIcon");
+        icon.textContent = success ? "✓" : "!";
+        icon.classList.toggle("error", !success);
+        document.getElementById("attendanceResultTitle").textContent = title;
+        document.getElementById("attendanceResultCopy").textContent = copy;
+        document.getElementById("attendanceResult").classList.remove("hidden");
+        document.getElementById("closeAttendanceResult").focus();
+      }
+      function recordAttendanceAction(action) {
+        const date = todayKey();
+        const planDay = getPlanDayForDate(date);
+        if (state.startDate && (planDay === null || isOffDay(planDay))) {
+          showAttendanceResult(false, "لا يوجد دوام اليوم", "اليوم إجازة أو خارج أيام خطة العمل، لذلك لا يمكن تسجيل الحضور أو الانصراف.");
+          return;
+        }
+        const original = state.attendance[date];
+        const record = original ? { checkIn: original.checkIn, checkOut: original.checkOut, absence: original.absence } : { checkIn: null, checkOut: null, absence: null };
+        let success = false;
+        let title = "";
+        let copy = "";
+        let changed = false;
+        if (record.absence) {
+          title = record.absence === "excused" ? "غياب بعذر مسجل" : "غياب بدون عذر مسجل";
+          copy = "لا يمكن تسجيل الحضور أو الانصراف في اليوم نفسه مع وجود غياب. غيّر حالة الغياب من الجدول أولًا إذا كان التسجيل بالخطأ.";
+        } else if (action === "checkin") {
+          if (record.checkIn) {
+            success = true;
+            title = "تم الحضور مسبقًا ✓";
+            copy = "سُجّل حضورك اليوم الساعة " + attendanceTime(record.checkIn) + ".";
+          } else {
+            record.checkIn = new Date().toISOString();
+            success = true;
+            changed = true;
+            title = "تم الحضور ✓";
+            copy = "تم تسجيل حضورك اليوم الساعة " + attendanceTime(record.checkIn) + ".";
+          }
+        } else if (!record.checkIn) {
+          title = "لم يُسجَّل الحضور";
+          copy = "سجّل الحضور أولًا، ثم سجّل الانصراف عند انتهاء العمل.";
+        } else if (record.checkOut) {
+          success = true;
+          title = "تم الانصراف مسبقًا ✓";
+          copy = "سُجّل انصرافك اليوم الساعة " + attendanceTime(record.checkOut) + ".";
+        } else {
+          record.checkOut = new Date().toISOString();
+          success = true;
+          changed = true;
+          title = "تم الانصراف ✓";
+          copy = "تم تسجيل انصرافك اليوم الساعة " + attendanceTime(record.checkOut) + ".";
+        }
+        if (changed) {
+          state.attendance[date] = record;
+          if (!saveState()) {
+            if (original) state.attendance[date] = original;
+            else delete state.attendance[date];
+            success = false;
+            title = "تعذّر حفظ التسجيل";
+            copy = "لم يتم حفظ العملية على هذا الهاتف. تحقق من مساحة التخزين في المتصفح ثم أعد المسح.";
+          }
+        }
+        render();
+        showAttendanceResult(success, title, copy);
+      }
+      function processAttendanceLink() {
+        const url = new URL(window.location.href);
+        const action = url.searchParams.get("attendance");
+        if (action !== "checkin" && action !== "checkout") return false;
+        url.searchParams.delete("attendance");
+        window.history.replaceState(null, "", url.pathname + url.search + url.hash);
+        recordAttendanceAction(action);
+        return true;
+      }
+      function render() {
+        selectedDay = Math.max(1, Math.min(getTotalDays(), selectedDay));
+        while (selectedDay > 1 && !canOpenDay(selectedDay)) selectedDay--;
+        const current = getCurrentDay();
+        const quantCompleted = getCompletedEditionCount("q", QUANT_COUNT);
+        const verbalCompleted = getCompletedEditionCount("v", VERBAL_COUNT);
+        const completed = quantCompleted + verbalCompleted;
+        const remainingDays = Math.max(1, getRemainingWorkDays(current).length);
+        const dailyTarget = Math.ceil((EDITION_COUNT - completed) / remainingDays);
+        const offDays = getTotalDays() - getWorkDays().length;
+        const quantMinutes = Math.ceil(state.workMinutes / 2);
+        const verbalMinutes = Math.floor(state.workMinutes / 2);
+        const percent = Math.round(completed / EDITION_COUNT * 100);
+        const challengeStars = getChallengeStarCount();
+        const trainingComplete = isTrainingComplete();
+        document.getElementById("todayLabel").textContent = new Intl.DateTimeFormat("ar-SA-u-ca-gregory", { weekday: "long", day: "numeric", month: "long" }).format(new Date());
+        document.getElementById("overallProgress").textContent = percent + "%";
+        document.getElementById("progressRing").style.setProperty("--progress", percent + "%");
+        document.getElementById("quantCompletedStat").innerHTML = formatNumber(quantCompleted) + " <small>من " + formatNumber(QUANT_COUNT) + "</small>";
+        document.getElementById("verbalCompletedStat").innerHTML = formatNumber(verbalCompleted) + " <small>من " + formatNumber(VERBAL_COUNT) + "</small>";
+        document.getElementById("quantPercent").textContent = formatNumber(Math.round(quantCompleted / QUANT_COUNT * 100)) + "٪";
+        document.getElementById("verbalPercent").textContent = formatNumber(Math.round(verbalCompleted / VERBAL_COUNT * 100)) + "٪";
+        document.getElementById("quantProgressBar").style.width = (quantCompleted / QUANT_COUNT * 100) + "%";
+        document.getElementById("verbalProgressBar").style.width = (verbalCompleted / VERBAL_COUNT * 100) + "%";
+        document.getElementById("finishDateStat").textContent = state.endDate ? formatDate(state.endDate) : "حدّد النهاية";
+        document.getElementById("durationSummary").textContent = formatNumber(getTotalDays()) + " يومًا إجمالًا · " + formatNumber(getWorkDays().length) + " أيام عمل · " + formatNumber(offDays) + " إجازة · " + formatNumber(remainingDays) + " يوم عمل متبقٍ · نحو " + formatNumber(dailyTarget) + " إصدارًا في يوم العمل";
+        document.getElementById("starStat").innerHTML = formatNumber(challengeStars) + " <small>من " + formatNumber(getWeekCount() * 3) + "</small>";
+        document.getElementById("heroTitle").textContent = trainingComplete ? "أتممت رحلتك التدريبية! استعد للاختبار 🏆" : state.startDate ? "أكمل تدريب اليوم " + formatNumber(current) + " وواصل تقدّمك." : "تدرّب على الإصدارات، وتابع إنجازك.";
+        document.getElementById("heroCopy").textContent = trainingComplete
+          ? "أنهيت الإصدارات والمراجعات والتحديات. خذ نفسًا عميقًا، وادخل الاختبار بثقة وهدوء."
+          : state.startDate
+          ? "مدة خطتك " + formatNumber(getTotalDays()) + " يومًا. خصص " + formatNumber(quantMinutes) + " دقيقة للكمي و" + formatNumber(verbalMinutes) + " دقيقة للفظي يوميًا، وأنجز نحو " + formatNumber(dailyTarget) + " إصدارًا في أيام العمل؛ النهاية " + formatDate(state.endDate) + "."
+          : "٤٣١ إصدارًا: ١٣٠ كميًا و٣٠١ لفظيًا. وزّع وقت المذاكرة بالتساوي بين القسمين في أيام العمل.";
+        document.getElementById("heroStatus").textContent = trainingComplete ? "الجائزة الكبرى بانتظارك — فخورون بإنجازك! ⭐" : "إنجازك " + percent + "% · " + formatNumber(completed) + " من ٤٣١";
+        document.getElementById("trainingFinish").classList.toggle("hidden", !trainingComplete);
+        renderAttendance();
+        renderPicker();
+        renderDay();
+        renderWeeks();
+        renderTable();
+        renderTestResults();
+        renderWeeklyChallengeAccess();
+        renderMockExamSchedule();
+      }
+      function advanceAfterFirstDay(previouslyComplete) {
+        if (selectedDay !== 1 || previouslyComplete || getTotalDays() < 2 || !isDayComplete(1)) return false;
+        selectedDay = 2;
+        render();
+        return true;
+      }
+      function renderPicker() {
+        const totalDays = getTotalDays();
+        dayPicker.innerHTML = Array.from({ length: totalDays }, function (_, index) {
+          const day = index + 1;
+          const classes = ["day-chip"];
+          const unlocked = canOpenDay(day);
+          if (day === selectedDay) classes.push("active");
+          if (isDayComplete(day)) classes.push("complete");
+          if (isOffDay(day)) classes.push("off");
+          if (!unlocked) classes.push("locked");
+          return '<button class="' + classes.join(" ") + '" type="button" data-day="' + day + '" ' + (unlocked ? "" : "disabled") + ' aria-label="اليوم ' + formatNumber(day) + (isOffDay(day) ? '، إجازة' : '') + (unlocked ? "" : '، مقفل حتى إكمال الأيام السابقة') + '" title="' + (unlocked ? (isOffDay(day) ? 'إجازة' : 'يوم عمل') : 'أكمل الأيام السابقة لفتح هذا اليوم') + '" aria-pressed="' + (day === selectedDay) + '">' + formatNumber(day) + '</button>';
+        }).join("");
+        const active = dayPicker.querySelector(".active");
+        if (active && typeof active.scrollIntoView === "function") active.scrollIntoView({ block: "nearest", inline: "center" });
+        document.getElementById("dayCounter").textContent = "يوم " + formatNumber(selectedDay) + " / " + formatNumber(totalDays);
+        document.getElementById("prevDay").disabled = selectedDay >= totalDays || !canOpenDay(selectedDay + 1);
+        document.getElementById("nextDay").disabled = selectedDay <= 1;
+      }
+      function renderDay() {
+        const offDay = isOffDay(selectedDay);
+        const reviewDay = isReviewDay(selectedDay);
+        const assignments = getDayAssignments(selectedDay);
+        const done = getDayDoneCount(selectedDay);
+        const quantAssignments = assignments.filter(function (issue) { return issue.category === "q"; });
+        const verbalAssignments = assignments.filter(function (issue) { return issue.category === "v"; });
+        const week = getWeekIndex(selectedDay);
+        const scheduledDate = state.startDate ? formatDate(getDateForDay(selectedDay)) : "اختر تاريخ البداية";
+        const items = assignments.map(function (issue) {
+          const checked = isEditionComplete(issue.key);
+          const pdf = PDF_FILES[issue.key];
+          const fileControl = pdf
+            ? '<a class="pdf-link" href="' + escapeHtml(pdf) + '" target="_blank" rel="noopener noreferrer">افتح PDF ↗</a>'
+            : '<span class="pdf-link disabled" title="سيظهر الملف بعد إضافة إصداراتك">PDF يُضاف لاحقًا</span>';
+          const category = issue.category === "q" ? "كمي" : "لفظي";
+          return '<li class="issue-row' + (checked ? ' issue-done' : '') + '"><label class="issue-main"><input class="issue-check" type="checkbox" data-edition="' + issue.key + '" ' + (checked ? 'checked' : '') + '><span><span class="issue-title">' + category + ' · الإصدار ' + formatNumber(issue.number) + '</span><span class="issue-meta">' + (checked ? "تم تسجيل الحل" : "علّم عليه بعد الحل") + '</span></span></label><span class="category-badge">' + category + '</span>' + fileControl + '</li>';
+        }).join("");
+        const complete = isDayComplete(selectedDay);
+        const dailyReviews = isReviewDay(selectedDay) ? getReviewItems(week).map(function (item, index) {
+          const checked = getReviewChecks(week)[index] === true;
+          const examLink = item.exam ? '<a class="pdf-link" href="https://qudurat.com/exam/instructions">ابدأ الاختبار ↗</a>' : "";
+          const note = item.label === "ملخص التأسيس" ? ' <span class="issue-meta">(الملف يضاف عند استلامه)</span>' : "";
+          return '<div><label class="review-task' + (checked ? ' done' : '') + '"><input type="checkbox" data-review="' + index + '" ' + (checked ? 'checked' : '') + '><span>' + item.label + note + '</span></label>' + (examLink ? '<div style="padding:0 28px 8px">' + examLink + '</div>' : '') + '</div>';
+        }).join("") : "";
+        const reviewMarkup = !offDay && isReviewDay(selectedDay)
+          ? '<section class="review-panel"><h4 class="review-title">مراجعة نهاية الأسبوع</h4><p class="review-description">موعد مراجعة هذا الأسبوع. أكمل المهام لمتابعة إنجازك.</p>' + dailyReviews + '</section>'
+          : "";
+        const challengeResult = getChallengeResultForWeek(week);
+        const challengeQuestionCount = challengeResult ? challengeResult.questionCount : getChallengeQuestionCount(week);
+        const challengeAvailableToday = isChallengeAvailableToday(week);
+        const challengeMarkup = isChallengeDay(selectedDay)
+          ? '<section class="review-panel"><h4 class="review-title">🔥 تحدي الأسبوع · الخميس ٨ مساءً</h4><p class="review-description">' + formatNumber(challengeQuestionCount) + ' أسئلة، ١٠ دقائق لجميع الأسئلة. أسرع وأجمع أكبر عدد من النقاط والنجوم!</p><div class="challenge-review-row"><div><strong>' + (challengeResult ? "نتيجتك " + formatNumber(challengeResult.score) + " / " + formatNumber(challengeResult.questionCount) : "جاهز للتحدي؟") + '</strong><span class="issue-meta">التحدي الأسبوعي · الخميس الساعة ٨ مساءً</span></div><button class="btn btn-primary btn-small" type="button" data-start-challenge="' + week + '" ' + (challengeAvailableToday ? "" : "disabled") + '>' + (challengeResult ? "اكتمل لهذا الأسبوع ✓" : challengeAvailableToday ? "ابدأ الآن 🚀" : "يفتح الخميس الساعة ٨ مساءً") + '</button></div></section>'
+          : "";
+        const allTasksComplete = !offDay && done === assignments.length &&
+          (!isReviewDay(selectedDay) || isReviewComplete(week));
+        const quantMinutes = Math.ceil(state.workMinutes / 2);
+        const verbalMinutes = Math.floor(state.workMinutes / 2);
+        const dayType = offDay ? "إجازة" : isReviewDay(selectedDay) && isChallengeDay(selectedDay) ? "مراجعة وتحدي" : isReviewDay(selectedDay) ? "مراجعة أسبوعية" : isChallengeDay(selectedDay) ? "تحدي أسبوعي" : "تدريب";
+        dayCard.innerHTML =
+          '<div class="day-heading"><div><span class="day-week">الأسبوع ' + formatNumber(week + 1) + ' · ' + dayType + '</span><h3 class="day-title">' + (offDay ? "يوم إجازة" : reviewDay ? "يوم مراجعة أسبوعية" : "تدريب اليوم " + formatNumber(selectedDay)) + '</h3><p class="day-description">' + escapeHtml(scheduledDate) + '</p></div><span class="tag">' + (offDay ? "راحة" : reviewDay ? "مراجعة فقط" : formatNumber(done) + ' / ' + formatNumber(assignments.length) + ' إصدارًا') + '</span></div>' +
+          (offDay ? '<p class="review-description">إجازة أسبوعية — لا توجد تدريبات أو مراجعات مجدولة.</p>' : reviewDay ? '<p class="review-description">لا توجد إصدارات أو مهام تدريبية في يوم المراجعة. أكمل مهام المراجعة والفرز فقط.</p>' : '<div class="tag-row"><span class="tag">🔢 كمي · ' + formatNumber(quantAssignments.length) + ' إصدارات · ' + formatNumber(quantMinutes) + ' دقيقة</span><span class="tag">📖 لفظي · ' + formatNumber(verbalAssignments.length) + ' إصدارات · ' + formatNumber(verbalMinutes) + ' دقيقة</span></div>') +
+          (!offDay && !reviewDay && items ? '<ul class="issue-list">' + items + '</ul>' : '') +
+          reviewMarkup +
+          challengeMarkup +
+          (offDay || reviewDay ? '' : '<label class="select-all-row"><input id="selectAllTasks" type="checkbox" ' + (allTasksComplete ? "checked" : "") + '><span>تحديد الكل — أتممت جميع مهام اليوم</span></label>') +
+          '<div class="day-footer"><span class="completion-copy">' + (offDay ? "استمتع بيوم الراحة، نعود للتدريب في يوم العمل التالي." : reviewDay ? "في يوم المراجعة لا توجد مهمات تدريبية أخرى." : complete ? "أحسنت! أنهيت متطلبات هذا اليوم ⭐" : "علّم على كل إصدار ومهمة مراجعة بعد إنجازها.") + '</span></div>';
+      }
+      function renderWeeks() {
+        let message = "أكمل تحدي كل أسبوع لتحصل على نجوم بحسب نقاطك ⭐";
+        const weekCount = getWeekCount();
+        const list = Array.from({ length: weekCount }, function (_, index) {
+          const stats = getWeekStats(index);
+          const result = getChallengeResultForWeek(index);
+          const questionCount = result ? result.questionCount : getChallengeQuestionCount(index);
+          const earnedStars = result ? getChallengeStars(result.score, result.questionCount) : 0;
+          if (stats.complete) message = "رائع! أكملت خطة الأسبوع " + formatNumber(index + 1) + " وتحديه. واصل بنفس الحماس! ⭐";
+          const reviewLabel = stats.reviewComplete ? "المراجعة مكتملة" : "المراجعة بانتظارك";
+          const stars = Array.from({ length: 3 }, function (_, starIndex) {
+            return '<span class="week-star' + (starIndex < earnedStars ? ' earned' : '') + '">★</span>';
+          }).join("");
+          const challengeLabel = result ? "التحدي " + formatNumber(result.score) + " / " + formatNumber(result.questionCount) : "التحدي بانتظارك · " + formatNumber(questionCount) + " أسئلة";
+          const planLabel = stats.complete ? "الخطة مكتملة ✓" : "الخطة قيد الإكمال";
+          return '<div class="week-item"><div><span class="week-name">الأسبوع ' + formatNumber(index + 1) + '</span><span class="week-progress">' + formatNumber(stats.done) + ' / ' + formatNumber(stats.total) + ' إصدارًا · الأيام ' + formatNumber(stats.start) + '–' + formatNumber(stats.end) + ' · ' + reviewLabel + ' · ' + challengeLabel + ' · ' + planLabel + '</span></div><span class="week-stars" role="img" aria-label="' + formatNumber(earnedStars) + ' من ٣ نجوم">' + stars + '</span></div>';
+        }).join("");
+        document.getElementById("weekList").innerHTML = list;
+        document.getElementById("weeklyMessage").textContent = message;
+        document.getElementById("starSummary").textContent = formatNumber(getChallengeStarCount()) + " / " + formatNumber(weekCount * 3);
+      }
+      function renderTable() {
+        const current = getCurrentDay();
+        document.getElementById("completionTable").innerHTML = Array.from({ length: getTotalDays() }, function (_, index) {
+          const day = index + 1;
+          const assignments = getDayAssignments(day);
+          const quantIds = assignments.filter(function (issue) { return issue.category === "q"; });
+          const verbalIds = assignments.filter(function (issue) { return issue.category === "v"; });
+          const quantDone = quantIds.filter(function (issue) { return isEditionComplete(issue.key); }).length;
+          const verbalDone = verbalIds.filter(function (issue) { return isEditionComplete(issue.key); }).length;
+          const complete = isDayComplete(day);
+          const status = isOffDay(day)
+            ? '<span class="status-pill future">إجازة</span>'
+            : !canOpenDay(day)
+            ? '<span class="status-pill future">مقفل 🔒</span>'
+            : complete
+            ? '<span class="status-pill complete">مكتمل ✓</span>'
+            : day < current ? '<span class="status-pill pending">متبقٍ</span>'
+            : day === current ? '<span class="status-pill pending">اليوم</span>'
+            : '<span class="status-pill future">مجدول</span>';
+          const date = state.startDate ? formatDate(getDateForDay(day)) : "—";
+          const week = getWeekIndex(day);
+          const reviewParts = [];
+          if (isChallengeDay(day)) reviewParts.push(isChallengeComplete(week) ? "التحدي مكتمل" : "التحدي الخميس ٨ مساءً");
+          if (isReviewDay(day)) reviewParts.push(isReviewComplete(week) ? "المراجعة مكتملة ✓" : "المراجعة مطلوبة");
+          const review = reviewParts.length ? reviewParts.join(" · ") : "—";
+          return '<tr data-table-day="' + day + '" class="' + (day === selectedDay ? "current-row" : "") + '"><td>اليوم ' + formatNumber(day) + '</td><td>' + date + '</td><td>' + formatNumber(quantDone) + ' / ' + formatNumber(quantIds.length) + '</td><td>' + formatNumber(verbalDone) + ' / ' + formatNumber(verbalIds.length) + '</td><td>' + review + '</td><td>' + status + '</td></tr>';
+        }).join("");
+      }
+      function getTraineeLevel(score) {
+        if (score >= 90) return { name: "متميز", guidance: "نتيجتك قوية؛ حافظ على التدريب والمراجعة المنتظمة." };
+        if (score >= 80) return { name: "متقدم", guidance: "أداؤك متقدم؛ ركّز على الأخطاء للوصول إلى مستوى أعلى." };
+        if (score >= 70) return { name: "جيد", guidance: "لديك أساس جيد؛ واصل التدريب على الأسئلة التي أخطأت فيها." };
+        if (score >= 60) return { name: "متوسط", guidance: "راجع نقاط الضعف وثبّت أساسيات الكمي واللفظي." };
+        return { name: "يحتاج تأسيس", guidance: "ابدأ بمراجعة الأساسيات ثم تدرّج إلى الأسئلة المتوسطة." };
+      }
+      function renderTestResults() {
+        const results = state.testResults;
+        const comparison = document.getElementById("testComparison");
+        const levelName = document.getElementById("traineeLevelName");
+        const levelCopy = document.getElementById("traineeLevelCopy");
+        if (results.length === 0) {
+          comparison.className = "test-comparison";
+          comparison.textContent = "سجّل نتيجة اختبارك لبدء المقارنة.";
+          levelName.textContent = "لم يُقيّم بعد";
+          levelCopy.textContent = "سجّل نتيجة اختبار لإظهار مستواك.";
+        } else if (results.length === 1) {
+          comparison.className = "test-comparison";
+          comparison.textContent = "نتيجتك المسجلة " + formatNumber(results[0].score) + "٪. سجّل الاختبار التالي لمقارنة التقدم.";
+        } else {
+          const previous = results[results.length - 2].score;
+          const latest = results[results.length - 1].score;
+          const change = Math.round((latest - previous) * 10) / 10;
+          comparison.className = "test-comparison " + (change > 0 ? "positive" : change < 0 ? "negative" : "");
+          comparison.textContent = change > 0
+            ? "تحسن عن الاختبار السابق بمقدار " + formatNumber(change) + " نقطة مئوية ↑"
+            : change < 0
+              ? "انخفضت النتيجة عن الاختبار السابق بمقدار " + formatNumber(Math.abs(change)) + " نقطة مئوية ↓"
+              : "نتيجتك مساوية للاختبار السابق.";
+        }
+        if (results.length > 0) {
+          const latest = results[results.length - 1];
+          const level = getTraineeLevel(latest.score);
+          levelName.textContent = level.name;
+          levelCopy.textContent = "مستواك بناءً على آخر نتيجة (" + formatNumber(latest.score) + "٪): " + level.guidance;
+        }
+        document.getElementById("testHistory").innerHTML = results.slice(-5).reverse().map(function (result, index) {
+          const level = getTraineeLevel(result.score);
+          return "<li>" + (results.length - index) + ". " + formatDate(result.date) + " — " + formatNumber(result.score) + "٪ · المستوى: " + escapeHtml(level.name) + "</li>";
+        }).join("");
+      }
+      function renderWeeklyChallengeAccess() {
+        const weekIndex = getWeekIndex(getCurrentDay());
+        const result = getChallengeResultForWeek(weekIndex);
+        const questionCount = result ? result.questionCount : getChallengeQuestionCount(weekIndex);
+        const challengeDay = getChallengeDayForWeek(weekIndex);
+        const reviewDay = getReviewDayForWeek(weekIndex);
+        const challengeDate = challengeDay === null ? null : getDateForDay(challengeDay);
+        const challengeIsToday = challengeDate === todayKey();
+        const challengeAvailableToday = challengeIsToday && isChallengeAvailableToday(weekIndex);
+        const button = document.getElementById("openWeeklyChallenge");
+        button.disabled = !challengeAvailableToday;
+        button.textContent = result
+          ? "اكتمل تحدي هذا الأسبوع ✓"
+          : !state.startDate
+          ? "ابدأ خطتك أولًا"
+          : challengeAvailableToday
+          ? "ابدأ تحدي الأسبوع 🚀"
+          : "التحدي متاح في موعده فقط";
+        document.getElementById("weeklyChallengeStatus").textContent = !state.startDate
+          ? "ابدأ خطتك أولًا، ثم نافس نفسك في تحدٍّ أسبوعي."
+          : result
+          ? "أنهيت تحدي هذا الأسبوع بنتيجة " + formatNumber(result.score) + " من " + formatNumber(result.questionCount) + "، وحصلت على " + formatNumber(getChallengeStars(result.score, result.questionCount)) + " من ٣ نجوم. ستتاح محاولة جديدة في موعد تحدي الأسبوع القادم فقط."
+          : challengeDay === null
+          ? "لا يقع يوم الخميس ضمن مدة هذا الأسبوع في الخطة."
+          : !challengeIsToday
+          ? dateOrdinal(todayKey()) < dateOrdinal(challengeDate)
+            ? "يفتح تحدي الأسبوع يوم الخميس ٨ مساءً (" + formatDate(challengeDate) + ")."
+            : "انتهى تحدي هذا الأسبوع؛ يفتح مجددًا الخميس القادم الساعة ٨ مساءً."
+          : !challengeAvailableToday
+          ? "يفتح التحدي اليوم الخميس الساعة ٨ مساءً."
+          : "التحدي متاح الآن حتى نهاية يوم الخميس · " + formatNumber(questionCount) + " أسئلة. موعد المراجعة " + (reviewDay === null ? "غير محددة" : formatWeekdayDate(getDateForDay(reviewDay))) + ".";
+      }
+      function renderMockExamSchedule() {
+        const current = getCurrentDay();
+        let nextExam = null;
+        for (let cycle = 1; cycle * 14 <= getTotalDays(); cycle++) {
+          const cycleEnd = cycle * 14;
+          const dueDay = getReviewDayForWeek(cycle * 2 - 1);
+          if (dueDay === null) continue;
+          if (dueDay >= current || current <= cycleEnd) {
+            nextExam = { day: dueDay, overdue: dueDay < current };
+            break;
+          }
+        }
+        const message = nextExam
+          ? (nextExam.overdue
+            ? "فات موعد الاختبار المحاكي في يوم العمل " + formatNumber(nextExam.day) + ". ادخل إليه الآن وأكّده في المراجعة."
+            : current === nextExam.day
+              ? "موعد الاختبار المحاكي اليوم. ادخل إليه الآن ثم أكّد إتمامه في مراجعة الأسبوع."
+              : "الاختبار المحاكي القادم في يوم العمل " + formatNumber(nextExam.day) + ". زر الاختبار يفتح الرابط مباشرة.")
+          : "لا يوجد موعد اختبار كل أسبوعين ضمن مدة خطتك الحالية. يمكنك فتح الاختبار من الزر في أي وقت.";
+        document.getElementById("mockExamSchedule").textContent = message;
+      }
+      function clearChallengeTimers() {
+        if (challengeInterval !== null) clearInterval(challengeInterval);
+        if (challengeAdvanceTimeout !== null) clearTimeout(challengeAdvanceTimeout);
+        challengeInterval = null;
+        challengeAdvanceTimeout = null;
+      }
+      function openChallenge(weekIndex) {
+        if (getChallengeResultForWeek(weekIndex)) {
+          showToast("اكتملت محاولة هذا الأسبوع. أعد التحدي في الأسبوع القادم فقط.");
+          return;
+        }
+        if (!isChallengeAvailableToday(weekIndex)) {
+          showToast("التحدي متاح يوم الخميس ابتداءً من الساعة ٨ مساءً.");
+          return;
+        }
+        clearChallengeTimers();
+        const questionCount = getChallengeQuestionCount(weekIndex);
+        challengeState = { weekIndex: weekIndex, questionCount: questionCount, questions: selectChallengeQuestions(questionCount), questionIndex: 0, correct: 0, answers: [], answered: false, started: false, finished: false, deadline: 0 };
+        document.getElementById("challengeTitle").textContent = formatNumber(challengeState.questionCount) + " أسئلة.. ١٠ دقائق لجميع الأسئلة!";
+        document.getElementById("challengeIntro").classList.remove("hidden");
+        document.getElementById("challengePlayArea").classList.add("hidden");
+        document.getElementById("challengeResult").classList.add("hidden");
+        document.getElementById("closeChallenge").textContent = "إلغاء التحدي";
+        challengeModal.classList.remove("hidden");
+        document.getElementById("startChallenge").focus();
+      }
+      function startChallenge() {
+        if (!challengeState) return;
+        if (getChallengeResultForWeek(challengeState.weekIndex)) {
+          closeChallenge();
+          showToast("اكتملت محاولة هذا الأسبوع. أعد التحدي في الأسبوع القادم فقط.");
+          return;
+        }
+        if (!isChallengeAvailableToday(challengeState.weekIndex)) {
+          closeChallenge();
+          showToast("التحدي متاح يوم الخميس ابتداءً من الساعة ٨ مساءً.");
+          return;
+        }
+        challengeState.started = true;
+        challengeState.deadline = Date.now() + 10 * 60 * 1000;
+        document.getElementById("challengeIntro").classList.add("hidden");
+        document.getElementById("challengePlayArea").classList.remove("hidden");
+        showChallengeQuestion();
+      }
+      function showChallengeQuestion() {
+        const question = challengeState.questions[challengeState.questionIndex];
+        challengeState.answered = false;
+        document.getElementById("challengeQuestionCount").textContent = "السؤال " + formatNumber(challengeState.questionIndex + 1) + " من " + formatNumber(challengeState.questionCount);
+        document.getElementById("challengeCategory").textContent = (question.category === "كمي" ? "🔢 القسم الكمي" : "📖 القسم اللفظي") + " · المستوى " + DIFFICULTY_LABELS[question.difficulty];
+        document.getElementById("challengeQuestion").textContent = question.question;
+        document.getElementById("challengeChoices").innerHTML = question.options.map(function (option, index) {
+          return '<button class="challenge-choice" type="button" data-challenge-answer="' + index + '">' + escapeHtml(option) + '</button>';
+        }).join("");
+        document.querySelector("#challengeChoices button").focus();
+        document.getElementById("challengeProgressBar").style.width = (challengeState.questionIndex / challengeState.questionCount * 100) + "%";
+        updateChallengeClock();
+        challengeInterval = setInterval(updateChallengeClock, 250);
+      }
+      function updateChallengeClock() {
+        if (!challengeState || challengeState.answered) return;
+        const seconds = Math.max(0, Math.ceil((challengeState.deadline - Date.now()) / 1000));
+        const clock = document.getElementById("challengeClock");
+        const clockText = formatNumber(Math.floor(seconds / 60)) + ":" + formatNumber(seconds % 60).padStart(2, "٠");
+        if (clock.textContent !== clockText) clock.textContent = clockText;
+        clock.classList.toggle("urgent", seconds <= 60);
+        if (seconds === 0) submitChallengeAnswer(null);
+      }
+      function submitChallengeAnswer(selectedIndex) {
+        if (!challengeState || challengeState.answered) return;
+        if (selectedIndex !== null && Date.now() >= challengeState.deadline) selectedIndex = null;
+        challengeState.answered = true;
+        if (challengeInterval !== null) clearInterval(challengeInterval);
+        challengeInterval = null;
+        const question = challengeState.questions[challengeState.questionIndex];
+        const correct = selectedIndex === question.answer;
+        challengeState.answers[challengeState.questionIndex] = selectedIndex;
+        if (correct) challengeState.correct++;
+        document.querySelectorAll("[data-challenge-answer]").forEach(function (button) {
+          button.disabled = true;
+        });
+        document.getElementById("challengeProgressBar").style.width = ((challengeState.questionIndex + 1) / challengeState.questionCount * 100) + "%";
+        challengeAdvanceTimeout = setTimeout(advanceChallenge, 850);
+      }
+      function advanceChallenge() {
+        challengeAdvanceTimeout = null;
+        if (!challengeState) return;
+        if (Date.now() >= challengeState.deadline) {
+          for (let index = challengeState.questionIndex + 1; index < challengeState.questionCount; index++) {
+            challengeState.answers[index] = null;
+          }
+          finishChallenge();
+          return;
+        }
+        challengeState.questionIndex++;
+        if (challengeState.questionIndex >= challengeState.questionCount) finishChallenge();
+        else showChallengeQuestion();
+      }
+      function finishChallenge() {
+        clearChallengeTimers();
+        if (!challengeState) return;
+        const weekIndex = challengeState.weekIndex;
+        const score = challengeState.correct;
+        const questionCount = challengeState.questionCount;
+        const stars = getChallengeStars(score, questionCount);
+        const result = { week: weekIndex, score: score, questionCount: questionCount, date: todayKey(), questionIds: challengeState.questions.map(function (question) { return question.id; }), answers: challengeState.answers.slice() };
+        state.challengeResults = state.challengeResults.filter(function (entry) { return entry.week !== weekIndex; });
+        state.challengeResults.push(result);
+        const challengeIndex = getReviewItems(weekIndex).length;
+        const checks = getReviewChecks(weekIndex).slice();
+        checks[challengeIndex] = true;
+        state.reviewChecks[String(weekIndex)] = checks;
+        challengeState.finished = true;
+        saveState();
+        const weeklyComplete = getWeekStats(weekIndex).complete;
+        render();
+        document.getElementById("challengeIntro").classList.add("hidden");
+        document.getElementById("challengePlayArea").classList.add("hidden");
+        document.getElementById("challengeResult").classList.remove("hidden");
+        document.getElementById("closeChallenge").textContent = "إغلاق";
+        const scoreRatio = score / questionCount;
+        document.getElementById("challengeResultTitle").textContent = score === questionCount ? "أسطورة! الدرجة الكاملة 🏆" : scoreRatio >= 0.8 ? "أداء ناري! 🔥" : scoreRatio >= 0.5 ? "تحدي قوي! واصل التقدم 💪" : "بداية بطل.. القادم أقوى! 🚀";
+        document.getElementById("challengeScore").textContent = "النقاط: " + formatNumber(score) + " من " + formatNumber(questionCount);
+        const starDisplay = document.getElementById("challengeResultStars");
+        starDisplay.setAttribute("aria-label", formatNumber(stars) + " من ٣ نجوم");
+        starDisplay.innerHTML = Array.from({ length: 3 }, function (_, index) {
+          return '<span class="challenge-result-star' + (index < stars ? " earned" : "") + '">★</span>';
+        }).join("");
+        const starMessage = stars === 0 ? "هذه المرة بلا نجوم، لكن عندك فرصة جديدة الأسبوع القادم!" : "استحققت " + formatNumber(stars) + " من ٣ نجوم!";
+        document.getElementById("challengeResultCopy").textContent = starMessage + (weeklyComplete ? " واكتملت خطة الأسبوع أيضًا — يا بطل! 🎉" : " أكمل بقية مهام الأسبوع لتكتمل خطتك.");
+        document.getElementById("challengeAnswerReview").innerHTML = challengeState.questions.map(function (question, index) {
+          const answer = challengeState.answers[index];
+          const correct = answer === question.answer;
+          const answerText = answer === null || answer === undefined ? "لم تجب — انتهى الوقت." : "إجابتك: " + question.options[answer] + (correct ? " ✓" : " ✗");
+          return '<div class="challenge-answer-item ' + (correct ? "correct" : "incorrect") + '"><div class="challenge-answer-question">' + formatNumber(index + 1) + '. ' + escapeHtml(question.question) + '</div><div class="challenge-answer-value">' + (question.category === "كمي" ? "كمي" : "لفظي") + ' · ' + DIFFICULTY_LABELS[question.difficulty] + '</div><div class="challenge-answer-value">' + escapeHtml(answerText) + '</div><div class="challenge-answer-value">الإجابة الصحيحة: ' + escapeHtml(question.options[question.answer]) + '</div><div class="challenge-answer-value">السبب: ' + escapeHtml(question.explanation || "لا يتوفر شرح لهذا السؤال.") + '</div></div>';
+        }).join("");
+      }
+      function closeChallenge() {
+        const cancelled = challengeState && challengeState.started && !challengeState.finished;
+        clearChallengeTimers();
+        challengeModal.classList.add("hidden");
+        challengeState = null;
+        if (cancelled) showToast("أُغلق التحدي دون تسجيل إكماله. يمكنك العودة إليه من مراجعة الأسبوع.");
+      }
+      document.getElementById("saveTestScore").addEventListener("click", function () {
+        const field = document.getElementById("testScore");
+        const score = Number(field.value);
+        if (field.value.trim() === "" || !Number.isFinite(score) || score < 0 || score > 100) {
+          showToast("أدخل نسبة صحيحة بين ٠ و١٠٠.");
+          return;
+        }
+        state.testResults.push({ score: Math.round(score * 10) / 10, date: todayKey() });
+        saveState();
+        field.value = "";
+        renderTestResults();
+        showToast("تم حفظ نتيجة الاختبار ومقارنتها بالسابق.");
+      });
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(function () { toast.classList.remove("show"); }, 2800);
+      }
+      function collectSelectedHolidays() {
+        return Array.from(document.querySelectorAll("[data-holiday-date]:checked")).map(function (input) {
+          return input.dataset.holidayDate;
+        });
+      }
+      function collectSelectedReviewDays() {
+        return Array.from(document.querySelectorAll("[data-review-weekday]:checked")).map(function (input) {
+          return Number(input.dataset.reviewWeekday);
+        });
+      }
+      function renderReviewDayOptions() {
+        const container = document.getElementById("reviewDayOptions");
+        const labels = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+        const selected = Array.isArray(state.reviewDays) && state.reviewDays.length ? state.reviewDays : [6];
+        container.innerHTML = labels.map(function (label, weekday) {
+          return '<label class="holiday-option"><input type="checkbox" data-review-weekday="' + weekday + '" ' +
+            (selected.indexOf(weekday) !== -1 ? "checked" : "") + '><span>' + label + '</span></label>';
+        }).join("");
+      }
+      function syncHolidayDraftFromControls() {
+        if (document.querySelector("[data-holiday-date]")) holidayDraft = collectSelectedHolidays();
+      }
+      function renderWeeklyHolidayOptions() {
+        const container = document.getElementById("weeklyHolidayOptions");
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+        if (!validDate(startDate) || !validDate(endDate) || dateOrdinal(endDate) < dateOrdinal(startDate)) {
+          container.innerHTML = '<p class="review-description">أدخل تاريخي بداية ونهاية صحيحين لعرض أيام كل أسبوع.</p>';
+          return;
+        }
+        const totalDays = dateOrdinal(endDate) - dateOrdinal(startDate) + 1;
+        const planDates = Array.from({ length: totalDays }, function (_, index) { return addDays(startDate, index); });
+        holidayDraft = holidayDraft.filter(function (date) { return planDates.indexOf(date) !== -1; });
+        container.innerHTML = Array.from({ length: Math.ceil(totalDays / 7) }, function (_, weekIndex) {
+          const firstDay = weekIndex * 7;
+          const weekDates = planDates.slice(firstDay, firstDay + 7);
+          const options = weekDates.map(function (date) {
+            const parts = date.split("-").map(Number);
+            const weekday = new Intl.DateTimeFormat("ar-SA-u-ca-gregory", { weekday: "short" }).format(new Date(parts[0], parts[1] - 1, parts[2]));
+            const checked = holidayDraft.indexOf(date) !== -1;
+            return '<label class="holiday-option"><input type="checkbox" data-holiday-date="' + date + '" ' + (checked ? "checked" : "") + '><span>' + weekday + ' ' + formatDate(date) + '</span></label>';
+          }).join("");
+          return '<section class="holiday-week"><h4 class="holiday-week-title">الأسبوع ' + formatNumber(weekIndex + 1) + '</h4><div class="holiday-days">' + options + '</div></section>';
+        }).join("");
+      }
+      function openSetup(editing) {
+        const startDate = state.startDate || todayKey();
+        document.getElementById("startDate").value = startDate;
+        document.getElementById("endDate").value = state.endDate || addDays(startDate, 29);
+        document.getElementById("quantCompletedBeforePlan").value = getCompletedEditionCount("q", QUANT_COUNT);
+        document.getElementById("verbalCompletedBeforePlan").value = getCompletedEditionCount("v", VERBAL_COUNT);
+        document.getElementById("workMinutes").value = state.workMinutes;
+        holidayDraft = state.holidays.slice();
+        renderReviewDayOptions();
+        renderWeeklyHolidayOptions();
+        document.getElementById("modalTitle").textContent = editing ? "تعديل إعدادات التدريب" : "ابدأ خطة التدريب";
+        document.getElementById("savePlan").textContent = editing ? "حفظ الإعدادات" : "ابدأ الخطة";
+        document.getElementById("cancelSetup").classList.toggle("hidden", !editing);
+        document.getElementById("backupImportPanel").classList.toggle("hidden", editing);
+        setupModal.classList.remove("hidden");
+        document.getElementById("startDate").focus();
+      }
+      document.getElementById("savePlan").addEventListener("click", function () {
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+        const quantCompletedValue = document.getElementById("quantCompletedBeforePlan").value.trim();
+        const verbalCompletedValue = document.getElementById("verbalCompletedBeforePlan").value.trim();
+        const quantCompleted = Number(quantCompletedValue);
+        const verbalCompleted = Number(verbalCompletedValue);
+        const workMinutes = Number(document.getElementById("workMinutes").value);
+        const holidays = collectSelectedHolidays();
+        const reviewDays = collectSelectedReviewDays();
+        if (!reviewDays.length) { showToast("اختر يوم مراجعة واحدًا على الأقل."); return; }
+        if (!validDate(startDate)) { showToast("اختر تاريخًا صحيحًا للبداية."); return; }
+        if (!validDate(endDate) || dateOrdinal(endDate) < dateOrdinal(startDate)) { showToast("يجب أن يكون تاريخ النهاية في يوم البداية أو بعده."); return; }
+        if (quantCompletedValue === "" || !Number.isInteger(quantCompleted) || quantCompleted < 0 || quantCompleted > QUANT_COUNT) { showToast("أدخل عدد الإصدارات الكمية المكتملة من ٠ إلى ١٣٠."); return; }
+        if (verbalCompletedValue === "" || !Number.isInteger(verbalCompleted) || verbalCompleted < 0 || verbalCompleted > VERBAL_COUNT) { showToast("أدخل عدد الإصدارات اللفظية المكتملة من ٠ إلى ٣٠١."); return; }
+        if (!Number.isInteger(workMinutes) || workMinutes < 15 || workMinutes > 360 || workMinutes % 15 !== 0) { showToast("اجعل مدة المذاكرة من ١٥ إلى ٣٦٠ دقيقة، بمضاعفات ١٥."); return; }
+        let workingDays = 0;
+        const planDays = dateOrdinal(endDate) - dateOrdinal(startDate) + 1;
+        for (let day = 0; day < planDays; day++) if (holidays.indexOf(addDays(startDate, day)) === -1) workingDays++;
+        if (workingDays === 0) { showToast("الفترة المحددة كلها إجازة. اختر تاريخ نهاية يتضمن يوم عمل واحدًا على الأقل."); return; }
+        state.startDate = startDate;
+        state.endDate = endDate;
+        state.startingCompletedQuant = quantCompleted;
+        state.startingCompletedVerbal = verbalCompleted;
+        state.workMinutes = workMinutes;
+        state.holidays = holidays;
+        state.reviewDays = reviewDays;
+        holidayDraft = holidays.slice();
+        saveState();
+        setupModal.classList.add("hidden");
+        selectedDay = getCurrentDay();
+        render();
+        showToast("تم حفظ الخطة. موعد انتهائها " + formatDate(state.endDate) + ".");
+      });
+      document.getElementById("cancelSetup").addEventListener("click", function () { setupModal.classList.add("hidden"); });
+      document.getElementById("editPlanBtn").addEventListener("click", function () { openSetup(true); });
+      document.getElementById("backupSiteBtn").addEventListener("click", function () {
+        try {
+          const backup = { format: "miyaar-qiyas-backup-v1", exportedAt: new Date().toISOString(), state: state };
+          const file = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+          const url = URL.createObjectURL(file);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "miyaar-backup-" + todayKey() + ".json";
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+          showToast("تم تنزيل نسخة احتياطية من بياناتك.");
+        } catch (error) {
+          console.error("تعذر تنزيل نسخة احتياطية:", error);
+          showToast("تعذر تنزيل النسخة الاحتياطية من هذا المتصفح.");
+        }
+      });
+      document.getElementById("importBackupBtn").addEventListener("click", function () {
+        const fileInput = document.getElementById("backupImportFile");
+        const file = fileInput.files && fileInput.files[0];
+        if (!file) {
+          showToast("اختر ملف النسخة الاحتياطية أولًا.");
+          return;
+        }
+        if (file.size > 2000000) {
+          showToast("حجم ملف النسخة أكبر من الحد المسموح.");
+          return;
+        }
+        if (localStorage.getItem(APPS_SCRIPT_USER_KEY) && !googleDriveReady) {
+          showToast("انتظر اتصال المزامنة قبل استيراد البيانات.");
+          return;
+        }
+        if (!window.confirm(googleDriveReady ? "سيستبدل الاستيراد بيانات هذا الجهاز وملف Google Drive المرتبط. هل تريد المتابعة؟" : "سيستبدل الاستيراد بيانات هذا الجهاز. هل تريد المتابعة؟")) return;
+        const reader = new FileReader();
+        reader.onload = function () {
+          try {
+            const backup = JSON.parse(String(reader.result || ""));
+            if (!backup || backup.format !== "miyaar-qiyas-backup-v1" || !backup.state || typeof backup.state !== "object" || Array.isArray(backup.state)) {
+              showToast("ملف النسخة الاحتياطية غير صالح.");
+              return;
+            }
+            const previousState = state;
+            state = normalizeState(backup.state);
+            if (!saveState()) {
+              state = previousState;
+              render();
+              return;
+            }
+            if (state.startDate) setupModal.classList.add("hidden");
+            selectedDay = getCurrentDay();
+            render();
+            fileInput.value = "";
+            showToast(googleDriveReady ? "تم استيراد النسخة وتتم مزامنتها عبر Google Drive." : "تم استيراد النسخة إلى هذا الجهاز.");
+          } catch (error) {
+            console.error("تعذر استيراد النسخة الاحتياطية:", error);
+            showToast("تعذر قراءة ملف النسخة الاحتياطية.");
+          }
+        };
+        reader.onerror = function (error) {
+          console.error("تعذر قراءة ملف النسخة الاحتياطية:", error);
+          showToast("تعذر قراءة ملف النسخة الاحتياطية.");
+        };
+        reader.readAsText(file);
+      });
+      document.getElementById("resetSiteBtn").addEventListener("click", function () {
+        document.getElementById("resetError").textContent = "";
+        resetModal.classList.remove("hidden");
+        document.getElementById("cancelReset").focus();
+      });
+      document.getElementById("cancelReset").addEventListener("click", function () { resetModal.classList.add("hidden"); });
+      document.getElementById("confirmReset").addEventListener("click", async function () {
+        const button = document.getElementById("confirmReset");
+        button.disabled = true;
+        try {
+          if (googleDriveConnected) {
+            if (!googleDriveReady) throw new Error("Google Drive synchronization is not ready.");
+            await writeGoogleDriveState(createEmptyState());
+          }
+          clearLocalStateKeys();
+          const homeUrl = new URL(window.location.href);
+          homeUrl.search = "";
+          homeUrl.hash = "";
+          window.location.replace(homeUrl.toString());
+        } catch (error) {
+          console.error("تعذر إعادة تعيين تقدم الطالب:", error);
+          document.getElementById("resetError").textContent = "تعذرت إعادة التعيين. تحقق من صلاحية التخزين والاتصال بالسحابة ثم حاول مجددًا.";
+          button.disabled = false;
+        }
+      });
+      resetModal.addEventListener("click", function (event) { if (event.target === resetModal) resetModal.classList.add("hidden"); });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !resetModal.classList.contains("hidden")) resetModal.classList.add("hidden");
+      });
+      document.getElementById("openWeeklyChallenge").addEventListener("click", function () {
+        if (state.startDate) openChallenge(getWeekIndex(getCurrentDay()));
+      });
+      ["startDate", "endDate"].forEach(function (id) {
+        document.getElementById(id).addEventListener("input", function () {
+          syncHolidayDraftFromControls();
+          renderWeeklyHolidayOptions();
+        });
+        document.getElementById(id).addEventListener("change", function () {
+          syncHolidayDraftFromControls();
+          renderWeeklyHolidayOptions();
+        });
+      });
+      setupModal.addEventListener("click", function (event) { if (event.target === setupModal && state.startDate) setupModal.classList.add("hidden"); });
+      document.addEventListener("keydown", function (event) { if (event.key === "Escape" && state.startDate) setupModal.classList.add("hidden"); });
+      dayPicker.addEventListener("click", function (event) {
+        const button = event.target.closest("[data-day]");
+        if (!button || !canOpenDay(Number(button.dataset.day))) return;
+        selectedDay = Number(button.dataset.day);
+        render();
+      });
+      document.getElementById("prevDay").addEventListener("click", function () { if (canOpenDay(selectedDay + 1)) { selectedDay++; render(); } });
+      document.getElementById("nextDay").addEventListener("click", function () { if (selectedDay > 1) { selectedDay--; render(); } });
+      dayCard.addEventListener("click", function (event) {
+        const button = event.target.closest("[data-start-challenge]");
+        if (button) openChallenge(Number(button.dataset.startChallenge));
+      });
+      document.getElementById("startChallenge").addEventListener("click", startChallenge);
+      document.getElementById("closeChallenge").addEventListener("click", closeChallenge);
+      document.getElementById("finishChallenge").addEventListener("click", closeChallenge);
+      document.getElementById("closeAttendanceResult").addEventListener("click", function () {
+        document.getElementById("attendanceResult").classList.add("hidden");
+      });
+      document.getElementById("recordCheckIn").addEventListener("click", function () { recordAttendanceAction("checkin"); });
+      document.getElementById("recordCheckOut").addEventListener("click", function () { recordAttendanceAction("checkout"); });
+      document.getElementById("attendanceScheduleTable").addEventListener("change", function (event) {
+        const select = event.target.closest("[data-attendance-date]");
+        if (!select) return;
+        const date = select.dataset.attendanceDate;
+        const day = state.startDate && validDate(date) ? dateOrdinal(date) - dateOrdinal(state.startDate) + 1 : 0;
+        const absence = select.value;
+        if (day < 1 || day > getTotalDays() || isOffDay(day) || dateOrdinal(date) > dateOrdinal(todayKey()) ||
+          (absence !== "" && absence !== "excused" && absence !== "unexcused")) {
+          renderAttendanceSchedule();
+          return;
+        }
+        const original = state.attendance[date];
+        if (original && (original.checkIn || original.checkOut)) {
+          renderAttendanceSchedule();
+          showToast("لا يمكن تسجيل الغياب بعد تسجيل الحضور أو الانصراف.");
+          return;
+        }
+        const record = original ? { checkIn: original.checkIn, checkOut: original.checkOut, absence: absence || null } : { checkIn: null, checkOut: null, absence: absence || null };
+        if (record.absence) state.attendance[date] = record;
+        else if (record.checkIn || record.checkOut) state.attendance[date] = record;
+        else delete state.attendance[date];
+        if (!saveState()) {
+          if (original) state.attendance[date] = original;
+          else delete state.attendance[date];
+          render();
+          showToast("تعذّر حفظ حالة الغياب. تحقق من مساحة التخزين في المتصفح.");
+          return;
+        }
+        render();
+        showToast(absence === "excused" ? "تم تسجيل الغياب بعذر." : absence === "unexcused" ? "تم تسجيل الغياب بدون عذر." : "تم إلغاء تسجيل الغياب.");
+      });
+      challengeModal.addEventListener("click", function (event) {
+        const answer = event.target.closest("[data-challenge-answer]");
+        if (answer) submitChallengeAnswer(Number(answer.dataset.challengeAnswer));
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !challengeModal.classList.contains("hidden")) closeChallenge();
+      });
+      dayCard.addEventListener("change", function (event) {
+        if (!canOpenDay(selectedDay)) return;
+        if (event.target.id === "selectAllTasks") {
+          const checked = event.target.checked;
+          const previouslyComplete = isDayComplete(selectedDay);
+          const previousStars = getStarCount();
+          getDayAssignments(selectedDay).forEach(function (issue) { state.completedEditions[issue.key] = checked; });
+          if (isReviewDay(selectedDay)) {
+            const reviewWeek = getWeekIndex(selectedDay);
+            const existingChecks = getReviewChecks(reviewWeek);
+            const reviewItems = getReviewItems(reviewWeek);
+            state.reviewChecks[String(reviewWeek)] = reviewItems.map(function () { return checked; }).concat([existingChecks[reviewItems.length] === true]);
+          }
+          saveState();
+          render();
+          if (advanceAfterFirstDay(previouslyComplete)) {
+            showToast("أنهيت اليوم الأول! انتقلت تلقائيًا إلى اليوم الثاني 🚀");
+            return;
+          }
+          if (getStarCount() > previousStars) showToast("أحسنت! اكتملت مهام الأسبوع، ونجوم التحدي محسوبة في سجل الأسبوع ⭐");
+          else showToast(checked ? "تم تحديد جميع مهام اليوم." : "أُزيل التحديد عن مهام اليوم.");
+          return;
+        }
+        const reviewInput = event.target.closest("[data-review]");
+        if (reviewInput) {
+          const reviewWeek = getWeekIndex(selectedDay);
+          const checks = getReviewChecks(reviewWeek).slice();
+          const previousStars = getStarCount();
+          checks[Number(reviewInput.dataset.review)] = reviewInput.checked;
+          state.reviewChecks[String(reviewWeek)] = checks;
+          saveState();
+          render();
+          if (getStarCount() > previousStars) showToast("مبروك! اكتملت خطة الأسبوع، ونتيجة التحدي محفوظة بنجومها ⭐");
+          return;
+        }
+        const input = event.target.closest("[data-edition]");
+        if (!input) return;
+        const previouslyComplete = isDayComplete(selectedDay);
+        const previousStars = getStarCount();
+        state.completedEditions[input.dataset.edition] = input.checked;
+        saveState();
+        render();
+        if (advanceAfterFirstDay(previouslyComplete)) {
+          showToast("أنهيت اليوم الأول! انتقلت تلقائيًا إلى اليوم الثاني 🚀");
+          return;
+        }
+        if (getStarCount() > previousStars) showToast("اكتملت خطة الأسبوع! نجوم التحدي حسب نتيجتك محفوظة ⭐");
+        else if (isDayComplete(selectedDay)) showToast("أكملت إصدارات اليوم، واصل بهذا الأداء! ✨");
+      });
+      document.getElementById("completionTable").addEventListener("click", function (event) {
+        const row = event.target.closest("[data-table-day]");
+        if (!row || !canOpenDay(Number(row.dataset.tableDay))) return;
+        selectedDay = Number(row.dataset.tableDay);
+        render();
+        dayCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+      const attendanceView = new URLSearchParams(window.location.search).get("view") === "attendance";
+      const completionView = new URLSearchParams(window.location.search).get("view") === "completion";
+      document.body.classList.toggle("attendance-page", attendanceView);
+      document.body.classList.toggle("completion-page", completionView);
+      if (attendanceView) document.title = "مِعيار | الحضور والغياب";
+      if (completionView) document.title = "مِعيار | جدول الإتمام";
+      render();
+      setInterval(function () {
+        renderWeeklyChallengeAccess();
+        if (state.startDate && isChallengeDay(selectedDay)) renderDay();
+      }, 30000);
+      function finishInitialAppSetup() {
+        const attendanceActionProcessed = processAttendanceLink();
+        if (!state.startDate && !attendanceActionProcessed && !attendanceView && !completionView) openSetup(false);
+      }
+      initializeGoogleDriveSync();
+      finishInitialAppSetup();
+    })();
+  </script>
+</body>
+</html>

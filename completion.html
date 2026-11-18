@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101829">
+  <title>مِعيار | جدول الإتمام</title>
+  <style>
+    :root { color-scheme: dark; font-family: "Segoe UI", Tahoma, Arial, sans-serif; --mint: #78e0c0; --muted: #9eabc0; }
+    * { box-sizing: border-box; }
+    body { display: grid; min-height: 100vh; place-items: center; margin: 0; padding: 18px; color: #f3f5fa; background: radial-gradient(ellipse at 85% 0%, #345e7238, transparent 35rem), #101829; }
+    main { width: min(460px, 100%); padding: 30px 24px; border: 1px solid #34435c; border-radius: 22px; background: #172236; text-align: center; }
+    h1 { margin: 0 0 12px; font-size: 24px; }
+    p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.9; }
+    .btn { display: inline-block; margin-top: 22px; padding: 11px 18px; border: 1px solid var(--mint); border-radius: 11px; background: var(--mint); color: #102324; font: inherit; font-weight: 800; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>جارٍ فتح جدول الإتمام</h1>
+    <p>سيتم فتح جدول إنجاز التدريبات في الموقع.</p>
+    <a class="btn" href="index.html?view=completion">فتح الجدول</a>
+  </main>
+  <script>
+    (function () {
+      "use strict";
+      const target = new URL("index.html", window.location.href);
+      target.searchParams.set("view", "completion");
+      window.location.replace(target.toString());
+    })();
+  </script>
+</body>
+</html>
